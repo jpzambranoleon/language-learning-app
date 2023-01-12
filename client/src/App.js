@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { Box, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import MuiDrawer from "./components/MuiDrawer";
+import Dashboard from "./Dashboard";
+
+const mdTheme = createTheme();
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ThemeProvider theme={mdTheme}>
+        <Box sx={{ display: "flex" }}>
+          <CssBaseline />
+          <MuiDrawer />
+          <Router>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+            </Routes>
+          </Router>
+        </Box>
+      </ThemeProvider>
     </div>
   );
 }
