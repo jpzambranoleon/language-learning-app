@@ -67,7 +67,11 @@ const MuiDrawer = () => {
   };
   return (
     <React.Fragment>
-      <CustomAppBar position="absolute" open={open}>
+      <CustomAppBar
+        position="absolute"
+        open={open}
+        sx={{ display: { lg: "block", xs: "none" } }}
+      >
         <Toolbar sx={{ paddingRight: "24px" }}>
           <IconButton
             edge="start"
@@ -97,7 +101,11 @@ const MuiDrawer = () => {
           </IconButton>
         </Toolbar>
       </CustomAppBar>
-      <CustomDrawer variant="permanent" open={open}>
+      <CustomDrawer
+        variant="permanent"
+        open={open}
+        sx={{ display: { lg: "block", xs: "none" } }}
+      >
         <Toolbar
           sx={{
             display: "flex",
@@ -115,6 +123,9 @@ const MuiDrawer = () => {
           {mainListItems}
           <Divider sx={{ my: 1 }} />
           {secondaryListItems}
+        </List>
+        <List sx={{ position: "absolute", bottom: 0, width: "100%" }}>
+          <Typography>Logout</Typography>
         </List>
       </CustomDrawer>
     </React.Fragment>
