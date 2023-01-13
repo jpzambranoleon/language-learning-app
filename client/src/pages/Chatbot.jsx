@@ -9,14 +9,23 @@ import {
   InputBase,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   Paper,
   Toolbar,
 } from "@mui/material";
 import { blue, green } from "@mui/material/colors";
+import { useState } from "react";
 
 export default function Chatbot() {
+  const [input, setInput] = useState("");
+  const [chatLog, setChatLog] = useState([]);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setChatLog([...chatLog, { user: "me", message: `${input}` }]);
+    setInput("");
+  }
+
   return (
     <Box
       component="main"
@@ -211,12 +220,15 @@ export default function Chatbot() {
             sx={{ ml: 1, flex: 1 }}
             placeholder="What's on your mind?"
             inputProps={{ "aria-label": "what's on your mind" }}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
           />
           <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
           <IconButton
             color="primary"
             sx={{ p: "10px" }}
             aria-label="directions"
+            onClick={handleSubmit}
           >
             <Send />
           </IconButton>

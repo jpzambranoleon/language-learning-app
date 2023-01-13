@@ -18,7 +18,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/chat" element={<Chat />} />
-              <Route path="/messenger" element={<Chatbot />} />
+              <Route path="/chatbot" element={<Chatbot />} />
             </Routes>
           </Router>
         </Box>
