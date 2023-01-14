@@ -5,13 +5,34 @@ import {
   Divider,
   IconButton,
   InputBase,
+  Link,
   List,
   Paper,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import Message from "../components/Message";
 import MuiDrawer from "../components/MuiDrawer";
+
+function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+      sx={{ mt: 2 }}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://leonedigitale.com/">
+        Leone Digitale
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
 
 export default function Chatbot() {
   const [input, setInput] = useState("");
@@ -83,7 +104,7 @@ export default function Chatbot() {
         </Container>
         <Box
           sx={{
-            height: { xs: "84vh" },
+            height: { xs: "80vh" },
             overflow: "auto",
             display: { xl: "none", xs: "block" },
           }}
@@ -133,7 +154,7 @@ export default function Chatbot() {
             </IconButton>
           </Paper>
         </Container>
-        <Box sx={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
+        <Box>
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -162,6 +183,7 @@ export default function Chatbot() {
             </IconButton>
           </Box>
         </Box>
+        <Copyright />
       </Box>
     </>
   );
