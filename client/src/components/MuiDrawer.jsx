@@ -1,18 +1,21 @@
 import * as React from "react";
-import { ChevronLeft, Menu, Notifications } from "@mui/icons-material";
+import { Add, ChevronLeft, Menu, Notifications } from "@mui/icons-material";
 import {
   AppBar,
   Badge,
+  ClickAwayListener,
   Divider,
   Drawer,
   IconButton,
   List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   styled,
   Toolbar,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { mainListItems, secondaryListItems } from "./listItem";
 
 const drawerWidth = 240;
 
@@ -60,11 +63,22 @@ const CustomDrawer = styled(Drawer, {
   },
 }));
 
-const MuiDrawer = () => {
+const MuiDrawer = ({ clearChat }) => {
   const [open, setOpen] = useState(true);
+  const [openDrawer, setOpenDrawer] = useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpenDrawer(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpenDrawer(false);
+  };
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
   return (
     <React.Fragment>
       <CustomAppBar
@@ -120,14 +134,75 @@ const MuiDrawer = () => {
         </Toolbar>
         <Divider />
         <List component="nav">
-          {mainListItems}
-          <Divider sx={{ my: 1 }} />
-          {secondaryListItems}
+          <ListItemButton onClick={() => clearChat()}>
+            <ListItemIcon>
+              <Add />
+            </ListItemIcon>
+            <ListItemText primary="New Conversation" />
+          </ListItemButton>
         </List>
         <List sx={{ position: "absolute", bottom: 0, width: "100%" }}>
           <Typography>Logout</Typography>
         </List>
       </CustomDrawer>
+
+      {/* Responsive components for mobile use below */}
+
+      <AppBar sx={{ display: { lg: "none", xs: "block" } }}>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            sx={{ marginRight: "36px" }}
+          >
+            <Menu />
+          </IconButton>
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            sx={{ flexGrow: 1 }}
+          >
+            Chat Bot
+          </Typography>
+          <IconButton
+            color="inherit"
+            aria-label="clear chat"
+            onClick={() => clearChat()}
+          >
+            <Add />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        anchor="left"
+        open={openDrawer}
+        sx={{ display: { lg: "none", xs: "block" } }}
+      >
+        <ClickAwayListener onClickAway={handleDrawerClose}>
+          <List component="nav">
+            <ListItemButton
+              onClick={() => {
+                clearChat();
+                handleDrawerClose();
+              }}
+            >
+              <ListItemIcon>
+                <Add />
+              </ListItemIcon>
+              <ListItemText primary="New Conversation" />
+            </ListItemButton>
+          </List>
+        </ClickAwayListener>
+      </Drawer>
     </React.Fragment>
   );
 };
