@@ -183,6 +183,7 @@ const MuiDrawer = ({ clearChat }) => {
         </Toolbar>
       </AppBar>
       <Drawer
+        position="fixed"
         anchor="left"
         open={openDrawer}
         sx={{ display: { lg: "none", xs: "block" } }}

@@ -22,7 +22,7 @@ function Copyright(props) {
       color="text.secondary"
       align="center"
       {...props}
-      sx={{ mt: 2 }}
+      sx={{ mt: 2, display: { xl: "none", xs: "block" } }}
     >
       {"Copyright © "}
       <Link color="inherit" href="https://leonedigitale.com/">
@@ -104,7 +104,7 @@ export default function Chatbot() {
         </Container>
         <Box
           sx={{
-            height: { xs: "80vh" },
+            height: { xs: "77vh" },
             overflow: "auto",
             display: { xl: "none", xs: "block" },
           }}
@@ -154,7 +154,7 @@ export default function Chatbot() {
             </IconButton>
           </Paper>
         </Container>
-        <Box>
+        <Box position="fixed" sx={{ width: "100%" }}>
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -182,8 +182,8 @@ export default function Chatbot() {
               <Send />
             </IconButton>
           </Box>
+          <Copyright />
         </Box>
-        <Copyright />
       </Box>
     </>
   );
