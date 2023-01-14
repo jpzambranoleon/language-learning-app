@@ -18,17 +18,6 @@ app.use(cors());
 
 const PORT = 3080;
 
-// serving the frontend
-app.use(express.static(path.join(__dirname, "./client/build")));
-app.get("*", function (_, res) {
-  res.sendFile(
-    path.join(__dirname, "./client/build/index.html"),
-    function (err) {
-      res.status(500).send(err);
-    }
-  );
-});
-
 app.post("/", async (req, res) => {
   const { message } = req.body;
   const response = await openai.createCompletion({
@@ -40,6 +29,18 @@ app.post("/", async (req, res) => {
   res.json({
     message: response.data.choices[0].text,
   });
+});
+
+// serving the frontend
+app.use(express.static(path.join(__dirname, "./client/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "./client/build/index.html"),
+    function (err) {
+      res.status(500).send(err);
+    }
+  );
 });
 
 app.listen(PORT, () => {
