@@ -1,13 +1,12 @@
-// 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
-
 const { Configuration, OpenAIApi } = require("openai");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+require("dotenv").config();
 
 const configuration = new Configuration({
   organization: "org-UmsTiOJ79hIOscV8kXQneBET",
-  apiKey: "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",
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const openai = new OpenAIApi(configuration);
