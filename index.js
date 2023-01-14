@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
+const path = require("path");
 
 const configuration = new Configuration({
   organization: "org-UmsTiOJ79hIOscV8kXQneBET",
@@ -15,7 +16,18 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const port = 3080;
+const PORT = 3080;
+
+// serving the frontend
+app.use(express.static(path.join(__dirname, "./client/build")));
+app.get("*", function (_, res) {
+  res.sendFile(
+    path.join(__dirname, "./client/build/index.html"),
+    function (err) {
+      res.status(500).send(err);
+    }
+  );
+});
 
 app.post("/", async (req, res) => {
   const { message } = req.body;
@@ -30,6 +42,6 @@ app.post("/", async (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Example app listening at http://localhost:${PORT}`);
 });
