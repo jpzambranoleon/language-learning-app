@@ -12,6 +12,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Message from "./components/Message";
+import MuiDrawer from "./components/MuiDrawer";
 import Navbar from "./Navbar";
 // import Chatbot from "./pages/Chatbot";
 
@@ -56,13 +57,13 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={mdTheme}>
-        <CssBaseline />
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
           }}
         >
+          <CssBaseline />
+          <MuiDrawer />
           <Box
             sx={{
               height: { xs: "77vh" },
