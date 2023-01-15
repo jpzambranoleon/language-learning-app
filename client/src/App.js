@@ -65,50 +65,60 @@ function App() {
           <CssBaseline />
           <MuiDrawer />
           <Box
+            component="main"
             sx={{
-              height: { xs: "77vh" },
-              overflow: "auto",
-              display: { xl: "none", xs: "block" },
-            }}
-          >
-            <List>
-              {chatLog.map((message, index) => (
-                <div ref={scrollRef}>
-                  <Message message={message} key={index} />
-                </div>
-              ))}
-            </List>
-          </Box>
-          <Box
-            component="form"
-            sx={{
-              bgcolor: "background.paper",
-              display: "flex",
-              p: "2px 4px",
-              alignItems: "center",
-              position: "absolute",
-              right: 0,
-              left: 0,
-              bottom: 0,
               backgroundColor: (theme) =>
                 theme.palette.mode === "light"
                   ? theme.palette.grey[100]
                   : theme.palette.grey[900],
+              flexGrow: 1,
+              height: "100vh",
+              overflow: "auto",
+              position: "relative",
             }}
           >
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="What's on your mind?"
-              inputProps={{ "aria-label": "what's on your mind" }}
-            />
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-            <IconButton
-              color="primary"
-              sx={{ p: "10px" }}
-              aria-label="directions"
+            <Box
+              sx={{
+                height: { xs: "77vh" },
+                overflow: "auto",
+                display: { xl: "none", xs: "block" },
+              }}
             >
-              <Send />
-            </IconButton>
+              <List>
+                {chatLog.map((message, index) => (
+                  <div ref={scrollRef}>
+                    <Message message={message} key={index} />
+                  </div>
+                ))}
+              </List>
+            </Box>
+            <Box
+              component="form"
+              sx={{
+                bgcolor: "background.paper",
+                display: "flex",
+                p: "2px 4px",
+                alignItems: "center",
+                position: "absolute",
+                right: 0,
+                left: 0,
+                bottom: 0,
+              }}
+            >
+              <InputBase
+                sx={{ ml: 1, flex: 1 }}
+                placeholder="What's on your mind?"
+                inputProps={{ "aria-label": "what's on your mind" }}
+              />
+              <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+              <IconButton
+                color="primary"
+                sx={{ p: "10px" }}
+                aria-label="directions"
+              >
+                <Send />
+              </IconButton>
+            </Box>
           </Box>
         </Box>
       </ThemeProvider>
