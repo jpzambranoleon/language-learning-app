@@ -15,6 +15,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { mainListItems, secondaryListItems } from "./listItem";
 import { useState } from "react";
 
 const drawerWidth = 240;
@@ -134,12 +135,9 @@ const MuiDrawer = ({ clearChat }) => {
         </Toolbar>
         <Divider />
         <List component="nav">
-          <ListItemButton onClick={() => clearChat()}>
-            <ListItemIcon>
-              <Add />
-            </ListItemIcon>
-            <ListItemText primary="New Conversation" />
-          </ListItemButton>
+          {mainListItems}
+          <Divider sx={{ my: 1 }} />
+          {secondaryListItems}
         </List>
         <List sx={{ position: "absolute", bottom: 0, width: "100%" }}>
           <Typography>Logout</Typography>
@@ -148,10 +146,7 @@ const MuiDrawer = ({ clearChat }) => {
 
       {/* Responsive components for mobile use below */}
 
-      <AppBar
-        position="fixed"
-        sx={{ top: 0, display: { lg: "none", xs: "block" } }}
-      >
+      <AppBar position="fixed" sx={{ display: { lg: "none", xs: "block" } }}>
         <Toolbar
           sx={{
             display: "flex",
