@@ -6,15 +6,53 @@ import {
   Divider,
   IconButton,
   InputBase,
+  List,
   ThemeProvider,
 } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Message from "./components/Message";
 import Navbar from "./Navbar";
 // import Chatbot from "./pages/Chatbot";
 
 const mdTheme = createTheme();
 
 function App() {
+  const [input, setInput] = useState("");
+  const scrollRef = useRef();
+  const [chatLog, setChatLog] = useState([]);
+
+  // clear chats
+  function clearChat() {
+    setChatLog([]);
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    let chatLogNew = [...chatLog, { user: "me", message: `${input}` }];
+    setInput("");
+    setChatLog(chatLogNew);
+
+    const messages = chatLogNew.map((message) => message.message).join("\n");
+
+    const response = await fetch("/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: messages,
+      }),
+    });
+
+    const data = await response.json();
+    setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
+  }
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatLog]);
+
   return (
     <div className="App">
       <ThemeProvider theme={mdTheme}>
@@ -25,6 +63,21 @@ function App() {
             flexDirection: "column",
           }}
         >
+          <Box
+            sx={{
+              height: { xs: "77vh" },
+              overflow: "auto",
+              display: { xl: "none", xs: "block" },
+            }}
+          >
+            <List>
+              {chatLog.map((message, index) => (
+                <div ref={scrollRef}>
+                  <Message message={message} key={index} />
+                </div>
+              ))}
+            </List>
+          </Box>
           <Box
             component="form"
             sx={{
