@@ -32,6 +32,10 @@ function App() {
               display: "flex",
               p: "2px 4px",
               alignItems: "center",
+              position: "absolute",
+              right: 0,
+              left: 0,
+              bottom: 0,
               backgroundColor: (theme) =>
                 theme.palette.mode === "light"
                   ? theme.palette.grey[100]
