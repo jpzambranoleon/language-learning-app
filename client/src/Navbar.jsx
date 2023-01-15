@@ -33,60 +33,41 @@ function Copyright(props) {
 
 export default function Navbar() {
   return (
-    <>
-      <AppBar position="fixed" elevation={0}>
-        <Toolbar>
+    <Box
+      component="main"
+      sx={{
+        backgroundColor: grey[100],
+        flexGrow: 1,
+        height: "100vh",
+        position: "relative",
+      }}
+    >
+      <Box sx={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
+        <Box
+          component="form"
+          sx={{
+            bgcolor: "background.paper",
+            display: "flex",
+            p: "2px 4px",
+            alignItems: "center",
+          }}
+        >
+          <InputBase
+            sx={{ ml: 1, flex: 1 }}
+            placeholder="What's on your mind?"
+            inputProps={{ "aria-label": "what's on your mind" }}
+          />
+          <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
           <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
+            color="primary"
+            sx={{ p: "10px" }}
+            aria-label="directions"
           >
-            <Menu />
+            <Send />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-      <Box
-        component="main"
-        sx={{
-          backgroundColor: grey[100],
-          flexGrow: 1,
-          height: "100vh",
-          position: "relative",
-        }}
-      >
-        <Box sx={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
-          <Box
-            component="form"
-            sx={{
-              bgcolor: "background.paper",
-              display: "flex",
-              p: "2px 4px",
-              alignItems: "center",
-            }}
-          >
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="What's on your mind?"
-              inputProps={{ "aria-label": "what's on your mind" }}
-            />
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-            <IconButton
-              color="primary"
-              sx={{ p: "10px" }}
-              aria-label="directions"
-            >
-              <Send />
-            </IconButton>
-          </Box>
-          <Copyright />
         </Box>
+        <Copyright />
       </Box>
-    </>
+    </Box>
   );
 }
