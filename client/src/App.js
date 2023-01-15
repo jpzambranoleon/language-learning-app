@@ -72,16 +72,16 @@ function App() {
                   ? theme.palette.grey[100]
                   : theme.palette.grey[900],
               flexGrow: 1,
-              height: "100vh",
+              height: { xl: "100vh", xs: "none" },
               overflow: "auto",
-              position: "relative",
+              position: { xl: "relative", xs: "flex" },
             }}
           >
             <Box
               sx={{
-                height: { xs: "77vh" },
+                height: { xs: "100vh" },
                 overflow: "auto",
-                display: { xl: "none", xs: "block" },
+                display: { xl: "block", xs: "block" },
               }}
             >
               <List>
@@ -115,6 +115,7 @@ function App() {
                 color="primary"
                 sx={{ p: "10px" }}
                 aria-label="directions"
+                onClick={handleSubmit}
               >
                 <Send />
               </IconButton>
