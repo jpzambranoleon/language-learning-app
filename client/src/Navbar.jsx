@@ -34,7 +34,7 @@ function Copyright(props) {
 export default function Navbar() {
   return (
     <>
-      <AppBar>
+      <AppBar position="fixed" elevation={0}>
         <Toolbar>
           <IconButton
             size="large"
