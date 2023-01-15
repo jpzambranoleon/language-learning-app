@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={mdTheme}>
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ position: "relative", flexGrow: 1, height: "100vh" }}>
           <CssBaseline />
           <Router>
             <Routes>
