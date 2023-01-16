@@ -17,7 +17,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Message from "./components/Message";
 import MuiDrawer from "./components/MuiDrawer";
 import Navbar from "./Navbar";
-// import Chatbot from "./pages/Chatbot";
+import Chatbot from "./pages/Chatbot";
 
 function Copyright(props) {
   return (
@@ -26,7 +26,7 @@ function Copyright(props) {
       color="text.secondary"
       align="center"
       {...props}
-      sx={{ mt: 2, mb: 2, display: { xl: "none", xs: "block" } }}
+      sx={{ mt: 2, mb: 6, display: { xl: "none", xs: "block" } }}
     >
       {"Copyright © "}
       <Link color="inherit" href="https://leonedigitale.com/">
@@ -82,78 +82,11 @@ function App() {
         <Box
           sx={{
             display: "flex",
-            backgroundColor: (theme) =>
-              theme.palette.mode === "light"
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
           }}
         >
           <CssBaseline />
-          <MuiDrawer />
-          <Box
-            component="main"
-            sx={{
-              backgroundColor: (theme) =>
-                theme.palette.mode === "light"
-                  ? theme.palette.grey[100]
-                  : theme.palette.grey[900],
-              flexGrow: 1,
-              height: { xl: "100vh", xs: "none" },
-              overflow: "auto",
-              position: { xl: "relative", xs: "none" },
-            }}
-          >
-            <Toolbar />
-            <Box
-              sx={{
-                height: "84vh",
-                overflow: "auto",
-              }}
-            >
-              <List>
-                {chatLog.map((message, index) => (
-                  <div ref={scrollRef}>
-                    <Message message={message} key={index} />
-                  </div>
-                ))}
-              </List>
-            </Box>
-            <Box
-              sx={{
-                position: "fixed",
-                right: 0,
-                left: 0,
-                bottom: 0,
-                backgroundColor: "blue",
-              }}
-            >
-              <Box
-                component="form"
-                sx={{
-                  bgcolor: "red",
-                  display: "flex",
-                  p: "2px 4px",
-                  alignItems: "center",
-                }}
-              >
-                <InputBase
-                  sx={{ ml: 1, flex: 1 }}
-                  placeholder="What's on your mind?"
-                  inputProps={{ "aria-label": "what's on your mind" }}
-                />
-                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                <IconButton
-                  color="primary"
-                  sx={{ p: "10px" }}
-                  aria-label="directions"
-                  onClick={handleSubmit}
-                >
-                  <Send />
-                </IconButton>
-              </Box>
-              <Copyright />
-            </Box>
-          </Box>
+
+          <Chatbot />
         </Box>
       </ThemeProvider>
     </div>
