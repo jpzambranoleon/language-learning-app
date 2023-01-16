@@ -79,7 +79,7 @@ function App() {
           >
             <Box
               sx={{
-                height: { xs: "92vh" },
+                height: { xs: "95vh" },
                 overflow: "auto",
               }}
             >
