@@ -61,6 +61,10 @@ function App() {
         <Box
           sx={{
             display: "flex",
+            backgroundColor: (theme) =>
+              theme.palette.mode === "light"
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
           }}
         >
           <CssBaseline />
@@ -81,7 +85,6 @@ function App() {
             <Toolbar />
             <Box
               sx={{
-                height: { xs: "88vh" },
                 overflow: "auto",
               }}
             >
