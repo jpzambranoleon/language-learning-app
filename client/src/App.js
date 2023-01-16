@@ -95,7 +95,7 @@ function App() {
             <Box
               component="form"
               sx={{
-                bgcolor: "red",
+                bgcolor: "background.paper",
                 display: "flex",
                 p: "2px 4px",
                 alignItems: "center",
