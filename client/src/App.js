@@ -79,7 +79,7 @@ function App() {
           >
             <Box
               sx={{
-                height: { xs: "94vh" },
+                height: { xs: "90vh" },
                 overflow: "auto",
                 display: { xl: "block", xs: "block" },
               }}
@@ -92,33 +92,31 @@ function App() {
                 ))}
               </List>
             </Box>
-            <Box
-              component="form"
-              sx={{
-                bgcolor: "background.paper",
-                display: "flex",
-                p: "2px 4px",
-                alignItems: "center",
-                position: "absolute",
-                right: 0,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                placeholder="What's on your mind?"
-                inputProps={{ "aria-label": "what's on your mind" }}
-              />
-              <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-              <IconButton
-                color="primary"
-                sx={{ p: "10px" }}
-                aria-label="directions"
-                onClick={handleSubmit}
+            <Box sx={{ position: "fixed", right: 0, left: 0, bottom: 0 }}>
+              <Box
+                component="form"
+                sx={{
+                  bgcolor: "background.paper",
+                  display: "flex",
+                  p: "2px 4px",
+                  alignItems: "center",
+                }}
               >
-                <Send />
-              </IconButton>
+                <InputBase
+                  sx={{ ml: 1, flex: 1 }}
+                  placeholder="What's on your mind?"
+                  inputProps={{ "aria-label": "what's on your mind" }}
+                />
+                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                <IconButton
+                  color="primary"
+                  sx={{ p: "10px" }}
+                  aria-label="directions"
+                  onClick={handleSubmit}
+                >
+                  <Send />
+                </IconButton>
+              </Box>
             </Box>
           </Box>
         </Box>
