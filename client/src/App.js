@@ -26,7 +26,7 @@ function Copyright(props) {
       color="text.secondary"
       align="center"
       {...props}
-      sx={{ mt: 2, display: { xl: "none", xs: "block" } }}
+      sx={{ mt: 2, mb: 2, display: { xl: "none", xs: "block" } }}
     >
       {"Copyright © "}
       <Link color="inherit" href="https://leonedigitale.com/">
@@ -106,7 +106,7 @@ function App() {
             <Toolbar />
             <Box
               sx={{
-                height: "80vh",
+                height: "84vh",
                 overflow: "auto",
               }}
             >
