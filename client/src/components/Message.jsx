@@ -28,7 +28,7 @@ const Message = ({ message }) => {
         <ListItem>
           <Grid container justifyContent="flex-start">
             <Avatar
-              alt="Remy Sharp"
+              alt="AI Bot"
               src="https://material-ui.com/static/images/avatar/3.jpg"
               sx={{ mr: 1, width: 25, height: 25 }}
             />
