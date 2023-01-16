@@ -1,5 +1,6 @@
 import { Send } from "@mui/icons-material";
 import {
+  Avatar,
   Box,
   Container,
   Divider,
@@ -155,32 +156,41 @@ export default function Chatbot() {
           </Paper>
         </Container>
         <Box position="fixed" sx={{ width: "100%" }}>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{
-              bgcolor: "background.paper",
-              display: { lg: "none", xs: "flex" },
-              p: "2px 4px",
-              alignItems: "center",
-            }}
-          >
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="What's on your mind?"
-              inputProps={{ "aria-label": "what's on your mind" }}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
+          <Box sx={{ display: "flex", margin: "12px" }}>
+            <Avatar
+              alt="Remy Sharp"
+              src="https://material-ui.com/static/images/avatar/1.jpg"
+              sx={{ mr: "8px" }}
             />
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-            <IconButton
-              color="primary"
-              sx={{ p: "10px" }}
-              aria-label="directions"
-              onClick={handleSubmit}
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              sx={{
+                bgcolor: "background.paper",
+                display: { lg: "none", xs: "flex" },
+                alignItems: "center",
+                border: 1,
+                borderRadius: 1,
+                width: "100%",
+              }}
             >
-              <Send />
-            </IconButton>
+              <InputBase
+                sx={{ ml: 1, flex: 1 }}
+                placeholder="What's on your mind?"
+                inputProps={{ "aria-label": "what's on your mind" }}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+              />
+              <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+              <IconButton
+                color="primary"
+                sx={{ p: "10px" }}
+                aria-label="directions"
+                onClick={handleSubmit}
+              >
+                <Send />
+              </IconButton>
+            </Box>
           </Box>
           <Copyright />
         </Box>
