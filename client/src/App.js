@@ -79,7 +79,7 @@ function App() {
           >
             <Box
               sx={{
-                height: { xs: "95vh" },
+                height: { xs: "94vh" },
                 overflow: "auto",
                 display: { xl: "block", xs: "block" },
               }}
@@ -95,7 +95,7 @@ function App() {
             <Box
               component="form"
               sx={{
-                bgcolor: "background.paper",
+                bgcolor: "red",
                 display: "flex",
                 p: "2px 4px",
                 alignItems: "center",
