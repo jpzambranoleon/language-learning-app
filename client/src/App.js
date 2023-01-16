@@ -77,6 +77,21 @@ function App() {
               position: { xl: "relative", xs: "flex" },
             }}
           >
+            <Box
+              sx={{
+                height: { xs: "50vh" },
+                overflow: "auto",
+                display: { xl: "block", xs: "block" },
+              }}
+            >
+              <List>
+                {chatLog.map((message, index) => (
+                  <div ref={scrollRef}>
+                    <Message message={message} key={index} />
+                  </div>
+                ))}
+              </List>
+            </Box>
             <Box sx={{ position: "fixed", right: 0, left: 0, bottom: 0 }}>
               <Box
                 component="form"
