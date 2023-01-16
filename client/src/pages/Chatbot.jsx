@@ -81,7 +81,7 @@ export default function Chatbot() {
               ? theme.palette.grey[100]
               : theme.palette.grey[900],
           flexGrow: 1,
-          height: "100vh",
+          height: { xl: "100vh", xs: "none" },
           position: "relative",
         }}
       >
