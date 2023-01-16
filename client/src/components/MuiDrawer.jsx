@@ -146,7 +146,11 @@ const MuiDrawer = ({ clearChat }) => {
 
       {/* Responsive components for mobile use below */}
 
-      <AppBar position="fixed" sx={{ display: { lg: "none", xs: "block" } }}>
+      <AppBar
+        position="fixed"
+        elevation={0}
+        sx={{ display: { lg: "none", xs: "block" } }}
+      >
         <Toolbar
           sx={{
             display: "flex",
