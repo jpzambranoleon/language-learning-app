@@ -8,6 +8,7 @@ import {
   InputBase,
   List,
   ThemeProvider,
+  Toolbar,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -74,12 +75,13 @@ function App() {
               flexGrow: 1,
               height: { xl: "100vh", xs: "none" },
               overflow: "auto",
-              position: { xl: "relative", xs: "flex" },
+              position: { xl: "relative", xs: "none" },
             }}
           >
+            <Toolbar />
             <Box
               sx={{
-                height: { xs: "95vh" },
+                height: { xs: "88vh" },
                 overflow: "auto",
               }}
             >
