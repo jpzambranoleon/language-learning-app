@@ -6,9 +6,11 @@ import {
   Divider,
   IconButton,
   InputBase,
+  Link,
   List,
   ThemeProvider,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -16,6 +18,25 @@ import Message from "./components/Message";
 import MuiDrawer from "./components/MuiDrawer";
 import Navbar from "./Navbar";
 // import Chatbot from "./pages/Chatbot";
+
+function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+      sx={{ mt: 2, display: { xl: "none", xs: "block" } }}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://leonedigitale.com/">
+        Leone Digitale
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
 
 const mdTheme = createTheme();
 
@@ -85,6 +106,7 @@ function App() {
             <Toolbar />
             <Box
               sx={{
+                height: "80vh",
                 overflow: "auto",
               }}
             >
@@ -129,6 +151,7 @@ function App() {
                   <Send />
                 </IconButton>
               </Box>
+              <Copyright />
             </Box>
           </Box>
         </Box>
