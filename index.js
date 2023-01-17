@@ -49,6 +49,8 @@ app.get("*", (req, res) => {
   );
 });
 
+app.use("/api/auth", require("./routes/auth.routes"));
+
 app.listen(PORT, () => {
   console.log(`Backend server is running on ${PORT}`);
 });
