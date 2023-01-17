@@ -2,9 +2,19 @@ const { Configuration, OpenAIApi } = require("openai");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-require("dotenv").config();
+const MongooseConnection = require("./utility/mongoose.connection");
 const path = require("path");
+require("dotenv").config();
 
+// Create application with express
+const app = express();
+
+// Connect to database
+MongooseConnection();
+
+// Middlewares
+app.use(bodyParser.json());
+app.use(cors());
 const configuration = new Configuration({
   organization: "org-UmsTiOJ79hIOscV8kXQneBET",
   apiKey: process.env.OPENAI_API_KEY,
@@ -12,11 +22,7 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-const app = express();
-app.use(bodyParser.json());
-app.use(cors());
-
-const PORT = 3080;
+const PORT = process.env.PORT || 8000;
 
 app.post("/", async (req, res) => {
   const { message } = req.body;
@@ -44,5 +50,5 @@ app.get("*", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`);
+  console.log(`Backend server is running on ${PORT}`);
 });
