@@ -5,6 +5,7 @@ import {
   Button,
   Checkbox,
   Container,
+  createTheme,
   CssBaseline,
   FormControlLabel,
   Grid,
@@ -34,7 +35,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn() {
+export default function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
