@@ -18,6 +18,8 @@ import Message from "./components/Message";
 import MuiDrawer from "./components/MuiDrawer";
 import Navbar from "./Navbar";
 import Chatbot from "./pages/Chatbot";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function Copyright(props) {
   return (
@@ -85,8 +87,13 @@ function App() {
           }}
         >
           <CssBaseline />
-
-          <Chatbot />
+          <Router>
+            <Routes>
+              <Route path="/" element={<Chatbot />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Routes>
+          </Router>
         </Box>
       </ThemeProvider>
     </div>
