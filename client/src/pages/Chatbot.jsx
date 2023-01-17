@@ -155,7 +155,10 @@ export default function Chatbot() {
             </IconButton>
           </Paper>
         </Container>
-        <Box position="fixed" sx={{ width: "100%" }}>
+        <Box
+          position="fixed"
+          sx={{ display: { lg: "none", xs: "block" }, width: "100%" }}
+        >
           <Box sx={{ display: "flex", margin: "12px" }}>
             <Avatar
               alt="Remy Sharp"
@@ -166,10 +169,12 @@ export default function Chatbot() {
               component="form"
               onSubmit={handleSubmit}
               sx={{
-                bgcolor: "background.paper",
-                display: { lg: "none", xs: "flex" },
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "light"
+                    ? theme.palette.grey[100]
+                    : theme.palette.grey[900],
                 alignItems: "center",
-                border: 1,
+                display: "flex",
                 borderRadius: 1,
                 width: "100%",
               }}
@@ -184,11 +189,12 @@ export default function Chatbot() {
               <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
               <IconButton
                 color="primary"
+                size="small"
                 sx={{ p: "10px" }}
                 aria-label="directions"
                 onClick={handleSubmit}
               >
-                <Send />
+                <Send fontSize="inherit" />
               </IconButton>
             </Box>
           </Box>
