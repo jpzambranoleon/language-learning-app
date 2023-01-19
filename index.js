@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const MongooseConnection = require("./utility/mongoose.connection");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 // Create application with express
@@ -13,6 +14,7 @@ const app = express();
 MongooseConnection();
 
 // Middlewares
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(cors());
 const configuration = new Configuration({
