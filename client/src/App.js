@@ -1,83 +1,14 @@
-import { Send } from "@mui/icons-material";
-import {
-  Box,
-  createTheme,
-  CssBaseline,
-  Divider,
-  IconButton,
-  InputBase,
-  Link,
-  List,
-  ThemeProvider,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { Box, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Message from "./components/Message";
-import MuiDrawer from "./components/MuiDrawer";
-import Navbar from "./Navbar";
 import Chatbot from "./pages/Chatbot";
+import EmailVerification from "./pages/EmailVerification";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-      sx={{ mt: 2, mb: 6, display: { xl: "none", xs: "block" } }}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://leonedigitale.com/">
-        Leone Digitale
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import VerifyEmail from "./pages/VerifyEmail";
 
 const mdTheme = createTheme();
 
 function App() {
-  const [input, setInput] = useState("");
-  const scrollRef = useRef();
-  const [chatLog, setChatLog] = useState([]);
-
-  // clear chats
-  function clearChat() {
-    setChatLog([]);
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    let chatLogNew = [...chatLog, { user: "me", message: `${input}` }];
-    setInput("");
-    setChatLog(chatLogNew);
-
-    const messages = chatLogNew.map((message) => message.message).join("\n");
-
-    const response = await fetch("/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: messages,
-      }),
-    });
-
-    const data = await response.json();
-    setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
-  }
-
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chatLog]);
-
   return (
     <div className="App">
       <ThemeProvider theme={mdTheme}>
@@ -92,6 +23,11 @@ function App() {
               <Route path="/" element={<Chatbot />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/verify-email" element={<VerifyEmail />} />
+              <Route
+                path="/verify/email/:username/:token"
+                element={<EmailVerification />}
+              />
             </Routes>
           </Router>
         </Box>
