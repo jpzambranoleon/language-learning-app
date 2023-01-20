@@ -73,7 +73,6 @@ export default function Chatbot() {
 
   return (
     <>
-      <MuiDrawer clearChat={clearChat} />
       <Box
         component="main"
         sx={{
@@ -148,7 +147,7 @@ export default function Chatbot() {
             <IconButton
               color="primary"
               sx={{ p: "10px" }}
-              aria-label="directions"
+              aria-label="send"
               onClick={handleSubmit}
             >
               <Send />
@@ -191,7 +190,7 @@ export default function Chatbot() {
                 color="primary"
                 size="small"
                 sx={{ p: "10px" }}
-                aria-label="directions"
+                aria-label="send"
                 onClick={handleSubmit}
               >
                 <Send fontSize="inherit" />
