@@ -1,14 +1,18 @@
 import { Box, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import axios from "axios";
+import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Chatbot from "./pages/Chatbot";
-import EmailVerification from "./pages/EmailVerification";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import SendEmail from "./pages/SendEmail";
 import VerifyEmail from "./pages/VerifyEmail";
 
 const mdTheme = createTheme();
 
 function App() {
+  const { currentUser } = useSelector((state) => state.user);
+  axios.defaults.baseURL = "http://localhost:5000/api";
   return (
     <div className="App">
       <ThemeProvider theme={mdTheme}>
@@ -19,16 +23,25 @@ function App() {
         >
           <CssBaseline />
           <Router>
-            <Routes>
-              <Route path="/" element={<Chatbot />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/verify-email" element={<VerifyEmail />} />
-              <Route
-                path="/verify/email/:username/:token"
-                element={<EmailVerification />}
-              />
-            </Routes>
+            {currentUser ? (
+              <Routes>
+                <Route path="/" element={<Chatbot />} />
+              </Routes>
+            ) : (
+              <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route
+                  path="/send/verification/:email"
+                  element={<SendEmail />}
+                />
+                <Route
+                  path="/verify/email/:username/:token"
+                  element={<VerifyEmail />}
+                />
+              </Routes>
+            )}
           </Router>
         </Box>
       </ThemeProvider>
