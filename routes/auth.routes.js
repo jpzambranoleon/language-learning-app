@@ -9,4 +9,8 @@ router.post("/register", [checkDuplicateEmail], authController.register);
 
 router.post("/login", authController.login);
 
+router.post("/resend/email", authController.resendEmail);
+
+router.post("/verify/email/token", authController.verifyEmailToken);
+
 module.exports = router;
