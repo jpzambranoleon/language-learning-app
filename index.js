@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const MongooseConnection = require("./utility/mongoose.connection");
 const path = require("path");
+const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
@@ -17,6 +18,7 @@ MongooseConnection();
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(cors());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 const configuration = new Configuration({
   organization: "org-UmsTiOJ79hIOscV8kXQneBET",
   apiKey: process.env.OPENAI_API_KEY,
