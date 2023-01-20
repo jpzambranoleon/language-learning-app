@@ -53,9 +53,11 @@ exports.register = async (req, res) => {
 };
 
 // Login
-exports.login = async (req, res, next) => {
+exports.login = async (req, res) => {
   try {
+    console.log(req.body);
     const { email, password } = req.body;
+
     if (!email || !password) throw new Error("Please make a valid request");
 
     const user = await User.findOne({ email: email });
@@ -64,6 +66,17 @@ exports.login = async (req, res, next) => {
     const correctPassword = await bcrypt.compare(password, user.password);
 
     if (!correctPassword) throw new Error("Invalid credentials");
+
+    if (user.active === false) {
+      const emailToken = jwt.sign(
+        { username: user.username },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" }
+      );
+      await sendEmail(user.firstName, user.email, user.username, emailToken);
+      result = { error: true, message: "Authorization error" };
+      return res.status(403).json(result);
+    }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
@@ -77,7 +90,60 @@ exports.login = async (req, res, next) => {
       .send({
         success: true,
         message: "Login success",
+        user: user,
       });
+  } catch (err) {
+    res.status(500).send({
+      error: true,
+      message: err.message,
+    });
+  }
+};
+
+exports.resendEmail = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) throw new Error("User is not found");
+
+    const emailToken = jwt.sign(
+      { username: req.body.username },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    await sendEmail(user.firstName, user.email, user.username, emailToken);
+
+    res.status(200).send({
+      success: true,
+      message: "Email sent",
+    });
+  } catch (err) {
+    res.status(500).send({
+      error: true,
+      message: err.message,
+    });
+  }
+};
+
+exports.verifyEmailToken = async (req, res) => {
+  try {
+    console.log(req.body.username);
+    console.log(req.body.token);
+
+    const decode = jwt.verify(req.body.token, process.env.JWT_SECRET);
+    console.log(decode);
+
+    await User.updateOne(
+      { username: req.body.username },
+      {
+        $set: { isActive: true },
+      }
+    ).then(console.log("User found and modified email token"));
+
+    res.status(200).send({
+      success: true,
+      message: "Account activated",
+    });
   } catch (err) {
     res.status(500).send({
       error: true,
