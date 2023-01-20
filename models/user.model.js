@@ -9,7 +9,7 @@ const userSchema = new Schema(
     lastName: { type: String, max: 20 },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    active: { type: Boolean, default: false, required: true },
+    isActive: { type: Boolean, default: false, required: true },
   },
   {
     timestamps: {
