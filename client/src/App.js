@@ -3,9 +3,11 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MuiDrawer from "./components/MuiDrawer";
+import Account from "./pages/Account";
 import Chatbot from "./pages/Chatbot";
 import Login from "./pages/Login";
 import Messages from "./pages/Messages";
+import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import SendEmail from "./pages/SendEmail";
 import VerifyEmail from "./pages/VerifyEmail";
@@ -29,6 +31,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Chatbot />} />
               <Route path="/messages" element={<Messages />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/account" element={<Account />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/send/verification/:email" element={<SendEmail />} />
