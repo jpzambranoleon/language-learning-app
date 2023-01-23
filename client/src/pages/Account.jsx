@@ -90,15 +90,30 @@ export default function Account() {
           </Grid>
           <Grid item xs={9}>
             <TabPanel value={value} index={0}>
-              <Container maxWidth="sm">
-                <Grid container>
-                  <Grid item xs={3} sx={{ backgroundColor: "red" }}>
-                    <Box display="flex" justifyContent="flex-end" mt={1} mr={2}>
-                      Name
-                    </Box>
+              <Container maxWidth="xs">
+                <Grid container spacing={5} aria-label="name-textfield">
+                  <Grid
+                    item
+                    xs={2}
+                    display="flex"
+                    justifyContent="flex-end"
+                    alignItems="center"
+                  >
+                    <Avatar />
                   </Grid>
-                  <Grid item xs={8} sx={{ backgroundColor: "yellow" }}>
-                    <TextField fullWidth size="small" />
+                  <Grid item xs={10}>
+                    <Typography>jpzl_12</Typography>
+                    <Button size="small" variant="contained">
+                      Hello
+                    </Button>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={5} aria-label="name-textfield">
+                  <Grid item xs={2} display="flex" justifyContent="flex-end">
+                    <Typography mt={1}>Name</Typography>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <TextField size="small" fullWidth />
                     <Typography
                       variant="body2"
                       color="text.secondary"
@@ -108,14 +123,12 @@ export default function Account() {
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container>
-                  <Grid item xs={3} sx={{ backgroundColor: "blue" }}>
-                    <Box display="flex" justifyContent="flex-end" mt={1} mr={2}>
-                      Username
-                    </Box>
+                <Grid container spacing={5} aria-label="username-textfield">
+                  <Grid item xs={2} display="flex" justifyContent="flex-end">
+                    <Typography mt={1}>Username</Typography>
                   </Grid>
-                  <Grid item xs={8} sx={{ backgroundColor: "brown" }}>
-                    <TextField fullWidth size="small" />
+                  <Grid item xs={10}>
+                    <TextField size="small" fullWidth />
                     <Typography
                       variant="body2"
                       color="text.secondary"
@@ -126,32 +139,28 @@ export default function Account() {
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container>
-                  <Grid item xs={3} sx={{ backgroundColor: "green" }}>
-                    <Box display="flex" justifyContent="flex-end" mr={2}>
-                      Bio
-                    </Box>
+                <Grid container spacing={5} aria-label="bio-textfield">
+                  <Grid item xs={2} display="flex" justifyContent="flex-end">
+                    <Typography>Bio</Typography>
                   </Grid>
-                  <Grid item xs={8} sx={{ backgroundColor: "cyan" }}>
-                    <TextField multiline rows={2} fullWidth size="small" />
+                  <Grid item xs={10}>
+                    <TextField size="small" multiline rows={2} fullWidth />
                   </Grid>
                 </Grid>
-                <Grid container>
-                  <Grid item xs={3} sx={{ backgroundColor: "purple" }}>
-                    <Box display="flex" justifyContent="flex-end" mt={1} mr={2}>
-                      Email
-                    </Box>
+                <Grid container spacing={5} aria-label="email-textfield">
+                  <Grid item xs={2} display="flex" justifyContent="flex-end">
+                    <Typography mt={1}>Email</Typography>
                   </Grid>
-                  <Grid item xs={8} sx={{ backgroundColor: "pink" }}>
-                    <TextField fullWidth size="small" />
-                    <Button variant="contained">Submit</Button>
+                  <Grid item xs={10}>
+                    <TextField size="small" fullWidth />
+                    <Button size="small" variant="contained">
+                      Submit
+                    </Button>
                   </Grid>
                 </Grid>
               </Container>
             </TabPanel>
-            <TabPanel value={value} index={1}>
-              Hello
-            </TabPanel>
+            <TabPanel value={value} index={1}></TabPanel>
             <TabPanel value={value} index={2}>
               Item Three
             </TabPanel>
