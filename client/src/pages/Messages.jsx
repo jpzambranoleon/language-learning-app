@@ -177,7 +177,7 @@ export default function Messages() {
             </Box>
           </Grid>
           <Grid item xs={9} sx={{ position: "relative" }}>
-            <Box sx={{ height: "74vh", overflowY: "auto" }}>
+            <Box sx={{ height: "538px", overflowY: "auto" }}>
               <ListItem>
                 <Grid container justifyContent="flex-end">
                   <Grid
@@ -246,6 +246,48 @@ export default function Messages() {
               </ListItem>
             </Box>
             <Box
+              position="absolute"
+              sx={{ width: "100%", bottom: 0, left: 0, right: 0 }}
+            >
+              <Divider />
+              <Box sx={{ display: "flex", margin: "12px" }}>
+                <Avatar
+                  alt="Remy Sharp"
+                  src="https://material-ui.com/static/images/avatar/1.jpg"
+                  sx={{ mr: "8px" }}
+                />
+                <Box
+                  component="form"
+                  sx={{
+                    backgroundColor: (theme) =>
+                      theme.palette.mode === "light"
+                        ? theme.palette.grey[100]
+                        : theme.palette.grey[900],
+                    alignItems: "center",
+                    display: "flex",
+                    borderRadius: 1,
+                    width: "100%",
+                  }}
+                >
+                  <InputBase
+                    sx={{ ml: 1, flex: 1 }}
+                    placeholder="What's on your mind?"
+                    inputProps={{ "aria-label": "what's on your mind" }}
+                  />
+                  <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                  <IconButton
+                    color="primary"
+                    size="small"
+                    sx={{ p: "10px" }}
+                    aria-label="send"
+                  >
+                    <Send fontSize="inherit" />
+                  </IconButton>
+                </Box>
+              </Box>
+            </Box>
+
+            {/* <Box
               sx={{
                 alignItems: "center",
                 display: "flex",
@@ -271,7 +313,7 @@ export default function Messages() {
               >
                 <Send fontSize="inherit" />
               </IconButton>
-            </Box>
+            </Box> */}
           </Grid>
         </Grid>
       </Container>
