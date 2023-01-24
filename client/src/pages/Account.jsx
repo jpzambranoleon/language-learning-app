@@ -160,7 +160,46 @@ export default function Account() {
                 </Grid>
               </Container>
             </TabPanel>
-            <TabPanel value={value} index={1}></TabPanel>
+            <TabPanel value={value} index={1}>
+              <Container maxWidth="sm">
+                <Grid container spacing={5} aria-label="old-password-textfield">
+                  <Grid item xs={3} display="flex" justifyContent="flex-end">
+                    <Typography mt={1}>Old password</Typography>
+                  </Grid>
+                  <Grid item xs={8}>
+                    <TextField size="small" fullWidth />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={5} aria-label="new-password-textfield">
+                  <Grid item xs={3} display="flex" justifyContent="flex-end">
+                    <Typography mt={1}>New password</Typography>
+                  </Grid>
+                  <Grid item xs={8}>
+                    <TextField size="small" fullWidth />
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  spacing={5}
+                  aria-label="confirm-password-textfield"
+                >
+                  <Grid item xs={3}>
+                    <Box display="flex" justifyContent="flex-end">
+                      <Typography>Confirm new</Typography>
+                    </Box>
+                    <Box display="flex" justifyContent="flex-end">
+                      <Typography>password</Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={8}>
+                    <TextField size="small" fullWidth />
+                    <Button size="small" variant="contained">
+                      Change password
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Container>
+            </TabPanel>
             <TabPanel value={value} index={2}>
               Item Three
             </TabPanel>
