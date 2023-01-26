@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState } from "react";
+import Bio from "../components/Bio";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -90,75 +91,7 @@ export default function Account() {
           </Grid>
           <Grid item xs={9}>
             <TabPanel value={value} index={0}>
-              <Container maxWidth="xs">
-                <Grid container spacing={5} aria-label="name-textfield">
-                  <Grid
-                    item
-                    xs={2}
-                    display="flex"
-                    justifyContent="flex-end"
-                    alignItems="center"
-                  >
-                    <Avatar />
-                  </Grid>
-                  <Grid item xs={10}>
-                    <Typography>jpzl_12</Typography>
-                    <Button size="small" variant="contained">
-                      Hello
-                    </Button>
-                  </Grid>
-                </Grid>
-                <Grid container spacing={5} aria-label="name-textfield">
-                  <Grid item xs={2} display="flex" justifyContent="flex-end">
-                    <Typography mt={1}>Name</Typography>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <TextField size="small" fullWidth />
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      fontSize="12px"
-                    >
-                      *This is the name associated with this account
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid container spacing={5} aria-label="username-textfield">
-                  <Grid item xs={2} display="flex" justifyContent="flex-end">
-                    <Typography mt={1}>Username</Typography>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <TextField size="small" fullWidth />
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      fontSize="12px"
-                    >
-                      *People will be able to see your username. You can change
-                      your username here.
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid container spacing={5} aria-label="bio-textfield">
-                  <Grid item xs={2} display="flex" justifyContent="flex-end">
-                    <Typography>Bio</Typography>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <TextField size="small" multiline rows={2} fullWidth />
-                  </Grid>
-                </Grid>
-                <Grid container spacing={5} aria-label="email-textfield">
-                  <Grid item xs={2} display="flex" justifyContent="flex-end">
-                    <Typography mt={1}>Email</Typography>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <TextField size="small" fullWidth />
-                    <Button size="small" variant="contained">
-                      Submit
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Container>
+              <Bio />
             </TabPanel>
             <TabPanel value={value} index={1}>
               <Container maxWidth="sm">
