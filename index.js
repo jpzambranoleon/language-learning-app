@@ -1,10 +1,10 @@
 const { Configuration, OpenAIApi } = require("openai");
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const MongooseConnection = require("./utility/mongoose.connection");
 const path = require("path");
 const helmet = require("helmet");
+const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
@@ -16,9 +16,11 @@ MongooseConnection();
 
 // Middlewares
 app.use(cookieParser());
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cors());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(morgan("common"));
+
 const configuration = new Configuration({
   organization: "org-UmsTiOJ79hIOscV8kXQneBET",
   apiKey: process.env.OPENAI_API_KEY,
@@ -42,8 +44,20 @@ app.post("/", async (req, res) => {
 });
 
 // serving the frontend
-app.use(express.static(path.join(__dirname, "./client/build")));
+app.use("/api/auth", require("./routes/auth.routes"));
+app.use("/api/users", require("./routes/users.routes"));
 
+// error handler
+app.use((err, req, res, next) => {
+  const status = err.status || 500;
+  const message = err.message || "Something went wrong!";
+  return res.status(status).json({
+    success: false,
+    status,
+    message,
+  });
+});
+/*
 app.get("*", (req, res) => {
   res.sendFile(
     path.join(__dirname, "./client/build/index.html"),
@@ -51,9 +65,7 @@ app.get("*", (req, res) => {
       res.status(500).send(err);
     }
   );
-});
-
-app.use("/api/auth", require("./routes/auth.routes"));
+}); */
 
 app.listen(PORT, () => {
   console.log(`Backend server is running on ${PORT}`);
