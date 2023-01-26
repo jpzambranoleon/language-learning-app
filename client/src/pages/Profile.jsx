@@ -8,7 +8,6 @@ import {
   Grid,
   IconButton,
   InputBase,
-  Link,
   List,
   Paper,
   Tab,
@@ -17,6 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -88,7 +88,12 @@ export default function Profile() {
               <Typography component="h1" variant="h5">
                 jpzl_12
               </Typography>
-              <Button variant="contained" sx={{ ml: 2 }}>
+              <Button
+                variant="contained"
+                component={Link}
+                to="/account"
+                sx={{ ml: 2 }}
+              >
                 Edit profile
               </Button>
             </Box>
