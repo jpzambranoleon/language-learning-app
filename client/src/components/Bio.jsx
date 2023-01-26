@@ -118,27 +118,27 @@ const Bio = () => {
           });
         }
       );
-    }
-
-    dispatch(updateStart());
-    userRequest
-      .put(`/users/update/${currentUser._id}`, {
-        userId: currentUser._id,
-        data: formData,
-      })
-      .then((res) => {
-        setStatus({
-          open: true,
-          message: res.data.message,
-          severity: "success",
+    } else if (!file) {
+      dispatch(updateStart());
+      userRequest
+        .put(`/users/update/${currentUser._id}`, {
+          userId: currentUser._id,
+          data: formData,
+        })
+        .then((res) => {
+          setStatus({
+            open: true,
+            message: res.data.message,
+            severity: "success",
+          });
+          dispatch(updateSuccess(res.data.user));
+        })
+        .catch((err) => {
+          let message = err.response ? err.response.data.message : err.message;
+          setStatus({ open: true, message: message, severity: "error" });
+          dispatch(updateFailure());
         });
-        dispatch(updateSuccess(res.data.user));
-      })
-      .catch((err) => {
-        let message = err.response ? err.response.data.message : err.message;
-        setStatus({ open: true, message: message, severity: "error" });
-        dispatch(updateFailure());
-      });
+    }
   };
 
   const [open, setOpen] = useState(false);
