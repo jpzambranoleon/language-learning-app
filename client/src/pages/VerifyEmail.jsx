@@ -68,7 +68,7 @@ export default function VerifyEmail() {
             Email was verified
           </Typography>
           <Typography>Your account is now activated</Typography>
-          <Button type="submit" sx={{ mt: 3, mb: 2 }}>
+          <Button onClick={handleClick} sx={{ mt: 3, mb: 2 }}>
             Continue to login page
           </Button>
         </Box>
