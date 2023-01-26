@@ -13,7 +13,19 @@ import {
   Typography,
 } from "@mui/material";
 import { blue, red } from "@mui/material/colors";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
+import { userRequest } from "../requestMethods";
+import { InfoContext } from "../utils/InfoProvider";
+import { useDispatch } from "react-redux";
+import { updateFailure, updateStart, updateSuccess } from "../redux/userSlice";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import app from "../firebase";
 
 const style = {
   position: "absolute",
@@ -26,6 +38,109 @@ const style = {
 };
 
 const Bio = () => {
+  const { setStatus } = useContext(InfoContext);
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const [file, setFile] = useState(null);
+  const [formData, setFormData] = useState({
+    name: currentUser.name,
+    username: currentUser.username,
+    bio: currentUser.bio,
+    email: currentUser.publicEmail,
+    profilePic: currentUser.profilePic,
+  });
+
+  console.log(currentUser.profilePic);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(file);
+    if (file) {
+      const fileName = new Date().getTime() + file.name;
+      console.log(fileName);
+      const storage = getStorage(app);
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      // Register three observers:
+      // 1. 'state_changed' observer, called any time the state changes
+      // 2. Error observer, called on failure
+      // 3. Completion observer, called on successful completion
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+          }
+        },
+        (error) => {
+          // Handle unsuccessful uploads
+        },
+        () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            formData.profilePic = downloadURL;
+
+            dispatch(updateStart());
+            userRequest
+              .put(`/users/update/${currentUser._id}`, {
+                userId: currentUser._id,
+                data: formData,
+              })
+              .then((res) => {
+                setStatus({
+                  open: true,
+                  message: res.data.message,
+                  severity: "success",
+                });
+                dispatch(updateSuccess(res.data.user));
+              })
+              .catch((err) => {
+                let message = err.response
+                  ? err.response.data.message
+                  : err.message;
+                setStatus({ open: true, message: message, severity: "error" });
+                dispatch(updateFailure());
+              });
+          });
+        }
+      );
+    }
+
+    dispatch(updateStart());
+    userRequest
+      .put(`/users/update/${currentUser._id}`, {
+        userId: currentUser._id,
+        data: formData,
+      })
+      .then((res) => {
+        setStatus({
+          open: true,
+          message: res.data.message,
+          severity: "success",
+        });
+        dispatch(updateSuccess(res.data.user));
+      })
+      .catch((err) => {
+        let message = err.response ? err.response.data.message : err.message;
+        setStatus({ open: true, message: message, severity: "error" });
+        dispatch(updateFailure());
+      });
+  };
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -40,10 +155,18 @@ const Bio = () => {
             justifyContent="flex-end"
             alignItems="center"
           >
-            <Avatar />
+            <Avatar
+              src={
+                !file
+                  ? !currentUser.profilePic
+                    ? "/broken-img.jpg"
+                    : currentUser.profilePic
+                  : URL.createObjectURL(file)
+              }
+            />
           </Grid>
           <Grid item xs={10}>
-            <Typography>jpzl_12</Typography>
+            <Typography>{currentUser.username}</Typography>
             <Button onClick={handleOpen} size="small" variant="contained">
               Hello
             </Button>
@@ -54,7 +177,17 @@ const Bio = () => {
             <Typography mt={1}>Name</Typography>
           </Grid>
           <Grid item xs={10}>
-            <TextField size="small" fullWidth />
+            <TextField
+              defaultValue={currentUser.name}
+              id="name"
+              multiline
+              rows={1}
+              size="small"
+              fullWidth
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, name: e.target.value }))
+              }
+            />
             <Typography variant="body2" color="text.secondary" fontSize="12px">
               *This is the name associated with this account
             </Typography>
@@ -65,7 +198,17 @@ const Bio = () => {
             <Typography mt={1}>Username</Typography>
           </Grid>
           <Grid item xs={10}>
-            <TextField size="small" fullWidth />
+            <TextField
+              defaultValue={currentUser.username}
+              id="username"
+              multiline
+              rows={1}
+              size="small"
+              fullWidth
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, username: e.target.value }))
+              }
+            />
             <Typography variant="body2" color="text.secondary" fontSize="12px">
               *People will be able to see your username. You can change your
               username here.
@@ -77,7 +220,17 @@ const Bio = () => {
             <Typography>Bio</Typography>
           </Grid>
           <Grid item xs={10}>
-            <TextField size="small" multiline rows={2} fullWidth />
+            <TextField
+              defaultValue={currentUser.bio}
+              id="bio"
+              size="small"
+              multiline
+              rows={2}
+              fullWidth
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, bio: e.target.value }))
+              }
+            />
           </Grid>
         </Grid>
         <Grid container spacing={5} aria-label="email-textfield">
@@ -85,8 +238,18 @@ const Bio = () => {
             <Typography mt={1}>Email</Typography>
           </Grid>
           <Grid item xs={10}>
-            <TextField size="small" fullWidth />
-            <Button size="small" variant="contained">
+            <TextField
+              defaultValue={currentUser.email}
+              id="email"
+              multiline
+              rows={1}
+              size="small"
+              fullWidth
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, email: e.target.value }))
+              }
+            />
+            <Button onClick={handleSubmit} size="small" variant="contained">
               Submit
             </Button>
           </Grid>
@@ -100,7 +263,10 @@ const Bio = () => {
       >
         <Box sx={style}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Avatar sx={{ mt: 2, mb: 2, width: 60, height: 60 }} />
+            <Avatar
+              src={!file ? !currentUser.profilePic : URL.createObjectURL(file)}
+              sx={{ mt: 2, mb: 2, width: 60, height: 60 }}
+            />
           </Box>
           <Typography
             textAlign="center"
@@ -112,7 +278,14 @@ const Bio = () => {
             Profile photo
           </Typography>
           <Divider />
-          <ListItemButton>
+          <ListItemButton component="label">
+            <input
+              hidden
+              accept="image/*"
+              type="file"
+              id="image"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
             <ListItemText>
               <Typography textAlign="center" color={blue[600]} fontWeight="500">
                 Upload Photo
