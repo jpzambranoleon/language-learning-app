@@ -12,12 +12,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import { useContext } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
+import { publicRequest } from "../requestMethods";
 import { InfoContext } from "../utils/InfoProvider";
 
 function Copyright(props) {
@@ -49,7 +49,7 @@ export default function Login() {
   const handleLogin = (event) => {
     event.preventDefault();
     dispatch(loginStart());
-    axios
+    publicRequest
       .post("/auth/login", { email, password })
       .then((res) => {
         setStatus({
@@ -58,6 +58,7 @@ export default function Login() {
           severity: "success",
         });
         dispatch(loginSuccess(res.data.user));
+        navigate("/");
       })
       .catch((err) => {
         let message = err.response ? err.response.data.message : err.message;
@@ -129,7 +130,7 @@ export default function Login() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
