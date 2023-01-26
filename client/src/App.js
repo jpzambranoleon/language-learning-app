@@ -16,7 +16,6 @@ const mdTheme = createTheme();
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);
-  axios.defaults.baseURL = "http://localhost:5000/api";
   return (
     <div className="App">
       <ThemeProvider theme={mdTheme}>
@@ -26,22 +25,33 @@ function App() {
           }}
         >
           <CssBaseline />
-          <Router>
-            <MuiDrawer />
-            <Routes>
-              <Route path="/" element={<Chatbot />} />
-              <Route path="/messages" element={<Messages />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/account" element={<Account />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/send/verification/:email" element={<SendEmail />} />
-              <Route
-                path="/verify/email/:username/:token"
-                element={<VerifyEmail />}
-              />
-            </Routes>
-          </Router>
+          {currentUser ? (
+            <Router>
+              <MuiDrawer />
+              <Routes>
+                <Route path="/" element={<Chatbot />} />
+                <Route path="/messages" element={<Messages />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/account" element={<Account />} />
+              </Routes>
+            </Router>
+          ) : (
+            <Router>
+              <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route
+                  path="/send/verification/:email"
+                  element={<SendEmail />}
+                />
+                <Route
+                  path="/verify/email/:username/:token"
+                  element={<VerifyEmail />}
+                />
+              </Routes>
+            </Router>
+          )}
         </Box>
       </ThemeProvider>
     </div>
