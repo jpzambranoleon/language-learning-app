@@ -2,6 +2,7 @@ import { Send } from "@mui/icons-material";
 import {
   Avatar,
   Box,
+  CardMedia,
   Container,
   Divider,
   Grid,
@@ -18,8 +19,10 @@ import {
   Typography,
 } from "@mui/material";
 import { blue, green } from "@mui/material/colors";
+import { useSelector } from "react-redux";
 
 export default function Messages() {
+  const { currentUser } = useSelector((state) => state.user);
   return (
     <Box
       component="main"
@@ -46,12 +49,9 @@ export default function Messages() {
             <List>
               <ListItemButton>
                 <ListItemIcon>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src="https://material-ui.com/static/images/avatar/1.jpg"
-                  />
+                  <Avatar alt={currentUser.name} src={currentUser.profilePic} />
                 </ListItemIcon>
-                <ListItemText primary="John Wick" />
+                <ListItemText primary={currentUser.name} />
               </ListItemButton>
             </List>
             <Divider />
@@ -191,6 +191,22 @@ export default function Messages() {
                     <ListItemText
                       sx={{ pl: 2, pr: 2 }}
                       primary="Hello dkaskjdfhlaksjdhf asldkfjhas dkfjahsd fkjashdkl fajsdhklf asjdhflkas dhflkasjd fhaklsdfjh aslkdfj ahskldf askldfhjaskl dfhaksl dfhalsk dfjha slkdf ahsldkfjhaslkdf haslkd fhalksdf haskldjf halskdjf halksdf haklsdjfh alksdf h"
+                    />
+                  </Grid>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src="https://material-ui.com/static/images/avatar/1.jpg"
+                    sx={{ ml: 1, width: 25, height: 25 }}
+                  />
+                </Grid>
+              </ListItem>
+              <ListItem>
+                <Grid container justifyContent="flex-end">
+                  <Grid item sx={{ maxWidth: { lg: 380, xs: 200 } }}>
+                    <CardMedia
+                      sx={{ borderRadius: 3 }}
+                      component="img"
+                      src="https://firebasestorage.googleapis.com/v0/b/chat-a462e.appspot.com/o/1674766924962halo_minecraft.jpg?alt=media&token=867fe5cb-26f2-43fb-99e7-79eb33c6335f"
                     />
                   </Grid>
                   <Avatar
