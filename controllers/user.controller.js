@@ -30,6 +30,7 @@ exports.updateUser = async (req, res) => {
   }
 };
 
+// Get user
 exports.getUser = async (req, res) => {
   const userId = req.query.userId;
   const username = req.query.username;
@@ -47,11 +48,12 @@ exports.getUser = async (req, res) => {
 
 exports.searchUser = async (req, res) => {
   const query = req.query.q;
+  console.log(query);
   try {
     console.log(query);
     const users = await User.find({
       $or: [
-        { firstName: { $regex: query, $options: "i" } },
+        { name: { $regex: query, $options: "i" } },
         { username: { $regex: query, $options: "i" } },
       ],
     }).limit(40);

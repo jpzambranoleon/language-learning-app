@@ -16,7 +16,10 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { userRequest } from "../requestMethods";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -52,6 +55,17 @@ function a11yProps(index) {
 }
 
 export default function Profile() {
+  const { username } = useParams();
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await userRequest.get(`/users?username=${username}`);
+      setUser(res.data);
+    };
+    fetchUser();
+  }, [username]);
+
   return (
     <Box
       component="main"
@@ -77,8 +91,7 @@ export default function Profile() {
           <Grid item xs={4}>
             <Box display="flex" justifyContent="center" alignItems="center">
               <Avatar
-                alt="Remy Sharp"
-                src="https://material-ui.com/static/images/avatar/1.jpg"
+                src={!user.profilePic ? "/broken-image.jpg" : user.profilePic}
                 sx={{ height: 140, width: 140 }}
               />
             </Box>
@@ -86,7 +99,7 @@ export default function Profile() {
           <Grid item xs={4}>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Typography component="h1" variant="h5">
-                jpzl_12
+                {user.username}
               </Typography>
               <Button
                 variant="contained"
@@ -99,14 +112,10 @@ export default function Profile() {
             </Box>
             <Box sx={{ mt: 2 }}>
               <Typography variant="body1" fontSize="15px">
-                <b>Jean-Paul Zambrano-Leon</b>
+                <b>{user.name}</b>
               </Typography>
               <Typography variant="body2" fontSize="15px">
-                Il momento e adesso.
-              </Typography>
-              <Typography variant="body2" fontSize="15px">
-                This is my bio. I like reading, playing soccer, and watching
-                movies with my friends.
+                {user.bio}
               </Typography>
             </Box>
           </Grid>

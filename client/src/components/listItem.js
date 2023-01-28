@@ -8,6 +8,7 @@ import {
   Logout,
   People,
   Person,
+  Search,
   ShoppingCart,
 } from "@mui/icons-material";
 import {
@@ -26,6 +27,12 @@ export const mainListItems = (
         <Home />
       </ListItemIcon>
       <ListItemText primary="Home" />
+    </ListItemButton>
+    <ListItemButton>
+      <ListItemIcon>
+        <Search />
+      </ListItemIcon>
+      <ListItemText primary="Search" />
     </ListItemButton>
     <ListItemButton component={Link} to="/messages">
       <ListItemIcon>

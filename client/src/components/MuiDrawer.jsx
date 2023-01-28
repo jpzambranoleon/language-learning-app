@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  Add,
-  ChevronLeft,
-  Logout,
-  Menu,
-  Notifications,
-} from "@mui/icons-material";
+import { Add, ChevronLeft, Menu, Notifications } from "@mui/icons-material";
 import {
   AppBar,
   Badge,
@@ -21,12 +15,13 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { mainListItems, secondaryListItems } from "./listItem";
+import { secondaryListItems } from "./listItem";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../redux/userSlice";
 import { persistor } from "../redux/store";
+import DrawerItems from "./DrawerItems";
 
 const drawerWidth = 240;
 
@@ -104,7 +99,7 @@ const MuiDrawer = ({ clearChat }) => {
 
   return (
     <React.Fragment>
-      <CustomAppBar
+      {/* <CustomAppBar
         position="absolute"
         open={open}
         sx={{ display: { lg: "block", xs: "none" } }}
@@ -137,7 +132,7 @@ const MuiDrawer = ({ clearChat }) => {
             </Badge>
           </IconButton>
         </Toolbar>
-      </CustomAppBar>
+          </CustomAppBar> */}
       <CustomDrawer
         variant="permanent"
         open={open}
@@ -157,13 +152,7 @@ const MuiDrawer = ({ clearChat }) => {
         </Toolbar>
         <Divider />
         <List component="nav">
-          {mainListItems}
-          <ListItemButton onClick={handleLogout}>
-            <ListItemIcon>
-              <Logout />
-            </ListItemIcon>
-            <ListItemText primary="Logout" />
-          </ListItemButton>
+          <DrawerItems />
           <Divider sx={{ my: 1 }} />
           {secondaryListItems}
         </List>
