@@ -1,6 +1,7 @@
 import {
   Assignment,
   BarChart,
+  Cancel,
   Chat,
   Dashboard,
   Home,
@@ -30,10 +31,12 @@ import {
   Typography,
 } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { userRequest } from "../requestMethods";
 
 const DrawerItems = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const [anchorEl, setAnchorEl] = useState(null);
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
@@ -48,16 +51,12 @@ const DrawerItems = () => {
 
   useEffect(() => {
     const searchUsers = async () => {
-      if (search !== "") {
-        try {
-          const res = await userRequest.get(`/users/search?q=${search}`);
-          setUsers(res.data);
-          console.log(users);
-        } catch (err) {
-          console.log(err);
-        }
-      } else {
-        setUsers([]);
+      try {
+        const res = await userRequest.get(`/users/search?q=${search}`);
+        setUsers(res.data);
+        console.log(users);
+      } catch (err) {
+        console.log(err);
       }
     };
     searchUsers();
@@ -92,8 +91,10 @@ const DrawerItems = () => {
           horizontal: "left",
         }}
       >
-        <Typography p="20px 12px 15px 20px">Search</Typography>
-        <Box p="20px 20px 15px 20px" width={400}>
+        <Typography p="10px 0px 10px 20px" variant="h5" fontWeight={500}>
+          Search
+        </Typography>
+        <Box p="10px 20px 15px 20px" width={400}>
           <Box
             component="form"
             sx={{
@@ -109,19 +110,14 @@ const DrawerItems = () => {
           >
             <InputBase
               onKeyDown={(e) => e.stopPropagation()}
-              sx={{ ml: 1, flex: 1 }}
+              sx={{ ml: 1, flex: 1, p: "5px" }}
               placeholder="Search"
               inputProps={{ "aria-label": "search" }}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-            <IconButton
-              color="primary"
-              size="small"
-              sx={{ p: "10px" }}
-              aria-label="send"
-            >
-              <Send fontSize="inherit" />
+
+            <IconButton size="small" sx={{ mr: "5px" }} aria-label="send">
+              <Cancel fontSize="inherit" />
             </IconButton>
           </Box>
         </Box>
@@ -141,139 +137,13 @@ const DrawerItems = () => {
           </List>
         </Box>
       </Popover>
-      {/* <Menu
-        id="demo-positioned-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-      >
-        <MenuItem disabled>
-          <Typography color={"black"}>Search</Typography>
-        </MenuItem>
-        <Box p="20px 12px 15px 12px" width={400}>
-          <Box
-            component="form"
-            sx={{
-              backgroundColor: (theme) =>
-                theme.palette.mode === "light"
-                  ? theme.palette.grey[100]
-                  : theme.palette.grey[900],
-              alignItems: "center",
-              display: "flex",
-              borderRadius: 1,
-              width: "100%",
-            }}
-          >
-            <InputBase
-              onKeyDown={(e) => e.stopPropagation()}
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="Search"
-              inputProps={{ "aria-label": "search" }}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-            <IconButton
-              color="primary"
-              size="small"
-              sx={{ p: "10px" }}
-              aria-label="send"
-            >
-              <Send fontSize="inherit" />
-            </IconButton>
-          </Box>
-        </Box>
-        <Divider />
-        <Box height="500px">
-          <List>
-            <ListItemButton>
-              <ListItemIcon>
-                <Avatar />
-              </ListItemIcon>
-              <ListItemText primary="text" />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemIcon>
-                <Avatar />
-              </ListItemIcon>
-              <ListItemText primary="text" />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemIcon>
-                <Avatar />
-              </ListItemIcon>
-              <ListItemText primary="text" />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemIcon>
-                <Avatar />
-              </ListItemIcon>
-              <ListItemText primary="text" />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemIcon>
-                <Avatar />
-              </ListItemIcon>
-              <ListItemText primary="text" />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemIcon>
-                <Avatar />
-              </ListItemIcon>
-              <ListItemText primary="text" />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemIcon>
-                <Avatar />
-              </ListItemIcon>
-              <ListItemText primary="text" />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemIcon>
-                <Avatar />
-              </ListItemIcon>
-              <ListItemText primary="text" />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemIcon>
-                <Avatar />
-              </ListItemIcon>
-              <ListItemText primary="text" />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemIcon>
-                <Avatar />
-              </ListItemIcon>
-              <ListItemText primary="text" />
-            </ListItemButton>
-            {/* {users.map((u) => (
-              <ListItemButton>
-                <ListItemIcon>
-                  <Avatar
-                    src={!u.profilePic ? "/broken-image.jpg" : u.profilePic}
-                  />
-                </ListItemIcon>
-                <ListItemText primary={u.name} />
-              </ListItemButton>
-           ))} 
-          </List>
-        </Box>
-            </Menu> */}
-
       <ListItemButton component={Link} to="/messages">
         <ListItemIcon>
           <Chat />
         </ListItemIcon>
         <ListItemText primary="Chats" />
       </ListItemButton>
-      <ListItemButton component={Link} to="/profile">
+      <ListItemButton component={Link} to={`/profile/${currentUser.username}`}>
         <ListItemIcon>
           <Person />
         </ListItemIcon>
