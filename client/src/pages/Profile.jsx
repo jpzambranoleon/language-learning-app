@@ -114,7 +114,11 @@ export default function Profile() {
               <Typography variant="body1" fontSize="15px">
                 <b>{user.name}</b>
               </Typography>
-              <Typography variant="body2" fontSize="15px">
+              <Typography
+                variant="body2"
+                fontSize="15px"
+                sx={{ whiteSpace: "pre-line" }}
+              >
                 {user.bio}
               </Typography>
             </Box>
