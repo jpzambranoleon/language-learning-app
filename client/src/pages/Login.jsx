@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useContext } from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
 import { publicRequest } from "../requestMethods";
@@ -40,6 +40,7 @@ function Copyright(props) {
 
 export default function Login() {
   const { setStatus } = useContext(InfoContext);
+  const { loading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -111,11 +112,8 @@ export default function Login() {
             autoComplete="current-password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button
+            disabled={loading}
             fullWidth
             variant="contained"
             onClick={handleLogin}
