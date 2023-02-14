@@ -1,6 +1,4 @@
 const Assistant = require("../models/assistant.model");
-const AIConversation = require("../models/assistantConversation.model");
-const AIMessage = require("../models/assistantMessage.model");
 const { Configuration, OpenAIApi } = require("openai");
 const User = require("../models/user.model");
 
@@ -27,6 +25,7 @@ exports.createAI = async (req, res) => {
   }
 };
 
+// Update the AI assistant
 exports.updateAI = async (req, res) => {
   console.log(req.body);
   try {
@@ -50,6 +49,7 @@ exports.updateAI = async (req, res) => {
   }
 };
 
+// Delete the AI assistant
 exports.deleteAI = async (req, res) => {
   try {
     let assistant = await Assistant.findById(req.params.id);
@@ -70,6 +70,7 @@ exports.deleteAI = async (req, res) => {
   }
 };
 
+// Get the AI assistants for the user
 exports.getAllUsersAI = async (req, res) => {
   try {
     let user = await User.findOne({ username: req.params.username });
@@ -84,7 +85,7 @@ exports.getAllUsersAI = async (req, res) => {
   }
 };
 
-// Get the AI assistant
+// Get the specific AI assistant
 exports.getAI = async (req, res) => {
   const assistantId = req.query.assistantId;
   const assistantName = req.query.assistantName;
@@ -99,6 +100,7 @@ exports.getAI = async (req, res) => {
   }
 };
 
+// AI assistant message generation
 exports.postAIMessage = async (req, res) => {
   const configuration = new Configuration({
     organization: "org-UmsTiOJ79hIOscV8kXQneBET",
