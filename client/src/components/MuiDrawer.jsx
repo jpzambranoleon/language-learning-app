@@ -1,8 +1,7 @@
 import * as React from "react";
-import { Add, ChevronLeft, Menu, Notifications } from "@mui/icons-material";
+import { Add, ChevronLeft, Logout, Menu } from "@mui/icons-material";
 import {
   AppBar,
-  Badge,
   ClickAwayListener,
   Divider,
   Drawer,
@@ -16,12 +15,13 @@ import {
   Typography,
 } from "@mui/material";
 import { secondaryListItems } from "./listItem";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../redux/userSlice";
 import { persistor } from "../redux/store";
 import DrawerItems from "./DrawerItems";
+import { userRequest } from "../requestMethods";
 
 const drawerWidth = 240;
 
@@ -70,20 +70,21 @@ const CustomDrawer = styled(Drawer, {
 }));
 
 const MuiDrawer = ({ clearChat }) => {
+  const { currentUser } = useSelector((state) => state.user);
   const [open, setOpen] = useState(true);
   const [openDrawer, setOpenDrawer] = useState(false);
-  const dispatch = useDispatch();
+  const [assistants, setAssistants] = useState([]);
   const navigate = useNavigate();
 
-  const handleLogout = (event) => {
-    event.preventDefault();
-    dispatch(logout());
-    persistor.pause();
-    persistor.flush().then(() => {
-      return persistor.purge();
-    });
-    navigate("/login");
-  };
+  useEffect(() => {
+    const fetchAssisistants = async () => {
+      const res = await userRequest.get(
+        `/assistants/get/all/${currentUser.username}`
+      );
+      setAssistants(res.data);
+    };
+    fetchAssisistants();
+  }, [currentUser.username]);
 
   const handleDrawerOpen = () => {
     setOpenDrawer(true);
@@ -95,6 +96,11 @@ const MuiDrawer = ({ clearChat }) => {
 
   const toggleDrawer = () => {
     setOpen(!open);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("persist:root");
+    window.location.reload();
   };
 
   return (
@@ -157,7 +163,12 @@ const MuiDrawer = ({ clearChat }) => {
           {secondaryListItems}
         </List>
         <List sx={{ position: "absolute", bottom: 0, width: "100%" }}>
-          <Typography>Logout</Typography>
+          <ListItemButton onClick={handleLogout}>
+            <ListItemIcon>
+              <Logout />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItemButton>
         </List>
       </CustomDrawer>
 
