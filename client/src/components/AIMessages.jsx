@@ -1,17 +1,8 @@
-import {
-  Avatar,
-  Box,
-  Container,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Container, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useSelector } from "react-redux";
 
-const AIMessages = ({ message }) => {
+const AIMessages = ({ avatar, message }) => {
   const { currentUser } = useSelector((state) => state.user);
   return (
     <>
@@ -32,11 +23,7 @@ const AIMessages = ({ message }) => {
         <Box sx={{ bgcolor: "background.paper" }}>
           <Container maxWidth="md" sx={{ display: "flex" }}>
             <Box sx={{ my: 3, display: "flex" }}>
-              <Avatar
-                alt="Grace Augustine"
-                src="https://material-ui.com/static/images/avatar/3.jpg"
-                sx={{ width: 32, height: 32 }}
-              />
+              <Avatar src={avatar} sx={{ width: 32, height: 32 }} />
               <Typography sx={{ ml: 3 }}>{message.message}</Typography>
             </Box>
           </Container>
