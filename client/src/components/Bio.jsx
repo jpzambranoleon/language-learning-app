@@ -5,7 +5,6 @@ import {
   Container,
   Divider,
   Grid,
-  List,
   ListItemButton,
   ListItemText,
   Modal,
@@ -39,7 +38,7 @@ const style = {
 
 const Bio = () => {
   const { setStatus } = useContext(InfoContext);
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, loading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const [file, setFile] = useState(null);
@@ -249,7 +248,12 @@ const Bio = () => {
                 setFormData((prev) => ({ ...prev, email: e.target.value }))
               }
             />
-            <Button onClick={handleSubmit} size="small" variant="contained">
+            <Button
+              disabled={loading}
+              onClick={handleSubmit}
+              size="small"
+              variant="contained"
+            >
               Submit
             </Button>
           </Grid>
