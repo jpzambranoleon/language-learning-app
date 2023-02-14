@@ -1,16 +1,4 @@
-import {
-  Assignment,
-  BarChart,
-  Chat,
-  Dashboard,
-  Home,
-  Layers,
-  Logout,
-  People,
-  Person,
-  Search,
-  ShoppingCart,
-} from "@mui/icons-material";
+import { Add, Chat, Home, Person, Search } from "@mui/icons-material";
 import {
   ListItemButton,
   ListItemIcon,
@@ -52,25 +40,13 @@ export const mainListItems = (
 export const secondaryListItems = (
   <React.Fragment>
     <ListSubheader component="div" inset>
-      Saved reports
+      Chat assistants
     </ListSubheader>
-    <ListItemButton>
+    <ListItemButton component={Link} to="/assistant/create">
       <ListItemIcon>
-        <Assignment />
+        <Add />
       </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <Assignment />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <Assignment />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
+      <ListItemText primary="Create assistant" />
     </ListItemButton>
   </React.Fragment>
 );
