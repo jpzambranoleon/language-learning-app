@@ -1,5 +1,6 @@
 import {
   Assignment,
+  Assistant,
   BarChart,
   Cancel,
   Chat,
@@ -91,50 +92,52 @@ const DrawerItems = () => {
           horizontal: "left",
         }}
       >
-        <Typography p="10px 0px 10px 20px" variant="h5" fontWeight={500}>
-          Search
-        </Typography>
-        <Box p="10px 20px 15px 20px" width={400}>
-          <Box
-            component="form"
-            sx={{
-              backgroundColor: (theme) =>
-                theme.palette.mode === "light"
-                  ? theme.palette.grey[100]
-                  : theme.palette.grey[900],
-              alignItems: "center",
-              display: "flex",
-              borderRadius: 1,
-              width: "100%",
-            }}
-          >
-            <InputBase
-              onKeyDown={(e) => e.stopPropagation()}
-              sx={{ ml: 1, flex: 1, p: "5px" }}
-              placeholder="Search"
-              inputProps={{ "aria-label": "search" }}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+        <Box width={350}>
+          <Typography p="10px 0px 10px 20px" variant="h5" fontWeight={500}>
+            Search
+          </Typography>
+          <Box p="10px 20px 15px 20px">
+            <Box
+              component="form"
+              sx={{
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "light"
+                    ? theme.palette.grey[100]
+                    : theme.palette.grey[900],
+                alignItems: "center",
+                display: "flex",
+                borderRadius: 1,
+                width: "100%",
+              }}
+            >
+              <InputBase
+                onKeyDown={(e) => e.stopPropagation()}
+                sx={{ ml: 1, flex: 1, p: "5px" }}
+                placeholder="Search"
+                inputProps={{ "aria-label": "search" }}
+                onChange={(e) => setSearch(e.target.value)}
+              />
 
-            <IconButton size="small" sx={{ mr: "5px" }} aria-label="send">
-              <Cancel fontSize="inherit" />
-            </IconButton>
+              <IconButton size="small" sx={{ mr: "5px" }} aria-label="send">
+                <Cancel fontSize="inherit" />
+              </IconButton>
+            </Box>
           </Box>
-        </Box>
-        <Divider />
-        <Box height="585px" sx={{ overflowY: "auto" }}>
-          <List>
-            {users.map((u) => (
-              <ListItemButton>
-                <ListItemIcon>
-                  <Avatar
-                    src={!u.profilePic ? "/broken-image.jpg" : u.profilePic}
-                  />
-                </ListItemIcon>
-                <ListItemText primary={u.name} />
-              </ListItemButton>
-            ))}
-          </List>
+          <Divider />
+          <Box height="79vh" sx={{ overflowY: "auto" }}>
+            <List>
+              {users.map((u) => (
+                <ListItemButton>
+                  <ListItemIcon>
+                    <Avatar
+                      src={!u.profilePic ? "/broken-image.jpg" : u.profilePic}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={u.name} />
+                </ListItemButton>
+              ))}
+            </List>
+          </Box>
         </Box>
       </Popover>
       <ListItemButton component={Link} to="/messages">
@@ -143,7 +146,10 @@ const DrawerItems = () => {
         </ListItemIcon>
         <ListItemText primary="Chats" />
       </ListItemButton>
-      <ListItemButton component={Link} to={`/profile/${currentUser.username}`}>
+      <ListItemButton
+        component={Link}
+        to={`/profile/${currentUser.username}/posts`}
+      >
         <ListItemIcon>
           <Person />
         </ListItemIcon>
