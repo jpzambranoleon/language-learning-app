@@ -3,11 +3,13 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   Container,
   Divider,
   Grid,
   IconButton,
   InputBase,
+  LinearProgress,
   List,
   Paper,
   Tab,
@@ -15,10 +17,18 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { Stack } from "@mui/system";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import AICard from "../components/AICard";
+import {
+  fetchAssistantFailure,
+  fetchAssistants,
+  fetchAssistantStart,
+  fetchAssistantSuccess,
+} from "../redux/assistantSlice";
 import { userRequest } from "../requestMethods";
 
 function TabPanel(props) {
@@ -55,8 +65,28 @@ function a11yProps(index) {
 }
 
 export default function Profile() {
-  const { username } = useParams();
+  const { username, page } = useParams();
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
+  // const { assistants } = useSelector((state) => state.assistants);
   const [user, setUser] = useState({});
+  const [assistants, setAssistants] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  console.log(assistants);
+
+  const tabNameToIndex = {
+    0: "posts",
+    1: "assistants",
+    posts: 0,
+    assistants: 1,
+  };
+
+  const [selectedTab, setSelectedTab] = useState(tabNameToIndex[page]);
+
+  const handleChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -65,6 +95,23 @@ export default function Profile() {
     };
     fetchUser();
   }, [username]);
+
+  useEffect(() => {
+    setLoading(true);
+    const getAssistants = async () => {
+      try {
+        const res = await userRequest.get(
+          `/assistants/get/all/${currentUser.username}`
+        );
+        console.log(res.data);
+        setAssistants(res.data);
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getAssistants();
+  }, [currentUser.username]);
 
   return (
     <Box
@@ -76,7 +123,7 @@ export default function Profile() {
             : theme.palette.grey[900],
         flexGrow: 1,
         height: "100vh",
-        position: "relative",
+        overflow: "auto",
       }}
     >
       <Toolbar />
@@ -125,12 +172,43 @@ export default function Profile() {
           </Grid>
         </Grid>
         <Box sx={{ mt: 3, borderBottom: 1, borderColor: "divider" }}>
-          <Tabs value={0} centered>
-            <Tab label="Item One" />
+          <Tabs value={selectedTab} onChange={handleChange} centered>
+            <Tab
+              label="Posts"
+              component={Link}
+              to={`/profile/${username}/posts`}
+            />
+            <Tab
+              label="Assistants"
+              component={Link}
+              to={`/profile/${username}/assistants`}
+            />
           </Tabs>
         </Box>
-        <TabPanel value={0} index={0}>
+        <TabPanel value={selectedTab} index={0}>
           Item One
+        </TabPanel>
+        <TabPanel value={selectedTab} index={1}>
+          {loading ? (
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <Stack direction="column" sx={{ flexWrap: "wrap", gap: 1 }}>
+              {assistants.map((a) => (
+                <div>
+                  <AICard
+                    modelId={a._id}
+                    name={a.name}
+                    avatar={a.avatar}
+                    model={a.model}
+                    strengths={a.strengths}
+                    prompt={a.prompt}
+                  />
+                </div>
+              ))}
+            </Stack>
+          )}
         </TabPanel>
       </Container>
     </Box>
