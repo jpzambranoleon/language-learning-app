@@ -15,83 +15,86 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { grey } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import AIConversation from "../components/AIConversation";
+import AIMessages from "../components/AIMessages";
 import { userRequest } from "../requestMethods";
 
 export default function Assistant() {
   const { currentUser } = useSelector((state) => state.user);
-  const userId = currentUser._id;
-  const [conversations, setConversations] = useState([]);
-  const [currentChat, setCurrentChat] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
-  const [input, setInput] = useState("");
   const [chatLog, setChatLog] = useState([]);
+  const [prompt, setPrompt] = useState("");
+  const [input, setInput] = useState("");
+  const { assistantId } = useParams();
 
   useEffect(() => {
-    const getAIConversations = async () => {
+    const getChatLog = async () => {
       try {
         const res = await userRequest.get(
-          "/assistants/conversations/get/" + userId
+          `/assistants?assistantId=${assistantId}`
         );
-        setConversations(res.data);
+        setPrompt(res.data.prompt);
+        setChatLog(res.data.chatLog);
       } catch (err) {
         console.log(err);
       }
     };
-    getAIConversations();
-  }, [userId]);
+    getChatLog();
+  }, [assistantId]);
 
-  useEffect(() => {
-    const getAIMessages = async () => {
-      try {
-        const res = await userRequest.get(
-          "/assistants/messages/get/" + currentChat?._id
-        );
-        setMessages(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getAIMessages();
-  }, [currentChat]);
-
-  console.log(messages);
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    // let chatLogNew = [...chatLog, { user: "me", message: `${input}` }];
+  const handleSubmit = async (e) => {
+    let chatLogNew = [...chatLog, { user: "me", message: `${input}` }];
     setInput("");
-    // setChatLog(chatLogNew);
+    setChatLog(chatLogNew);
 
-    const chatLog = messages.map((message) => message.text).join("\n");
+    const messages = chatLogNew.map((message) => message.message).join("\n");
 
-    console.log(chatLog);
+    /*
+    try {
+      const userRes = await userRequest.post(
+        "/assistants/messages",
+        userMessage
+      );
+      setMessages([...messages, userRes.data]);
+      setInput("");
+      const chatLog = messages.map((message) => message.text).join("\n");
+      console.log(chatLog);
 
-    //  const response = await userRequest.post("/assistant/chat", {
-    //    message: messages,
-    //  });
+      const assistantRes = await userRequest.post("/assistants/messages/ai", {
+        sender: assistant._id,
+        chatLog: chatLog,
+        text: `\nHuman: ${newMessage}`,
+        conversationId: currentChat._id,
+      });
 
-    // const response = await fetch(
-    //   "http://localhost:5000/api/assistants/messages/ai",
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       message: messages,
-    //     }),
-    //   }
-    // );
+      console.log(assistantRes.data);
+    } catch (err) {
+      console.log(err);
+    } */
 
-    // const data = await response.json();
-    // console.log(data);
-    // setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
-    // console.log(chatLog);
-  }
+    const response = await fetch(
+      "http://localhost:5000/api/assistants/messages/ai",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          assistantId: assistantId,
+          prompt: prompt,
+          chatLog: chatLogNew,
+          message: messages,
+        }),
+      }
+    );
+
+    const data = await response.json();
+    console.log(data);
+    setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
+  };
 
   return (
     <Box
@@ -106,127 +109,62 @@ export default function Assistant() {
         position: "relative",
       }}
     >
-      <Container>
-        <Grid container>
-          <Grid item xs={4}>
-            <Paper>
-              <Typography>Hello</Typography>
-              <List>
-                {conversations.map((c) => (
-                  <div onClick={() => setCurrentChat(c)}>
-                    <AIConversation
-                      AIconversation={c}
-                      currentUser={currentUser}
-                    />
-                  </div>
-                ))}
-              </List>
-            </Paper>
-          </Grid>
-          <Grid item xs={8}>
-            <Box>
-              <ListItem sx={{ bgcolor: "background.paper" }}>
-                <ListItemIcon>
-                  <Avatar
-                    alt="Grace Augustine"
-                    src="https://material-ui.com/static/images/avatar/3.jpg"
-                  />
-                </ListItemIcon>
-                <ListItemText primary="Hello" />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <Avatar
-                    alt="Grace Augustine"
-                    src="https://material-ui.com/static/images/avatar/3.jpg"
-                  />
-                </ListItemIcon>
-                <ListItemText primary="Hello there" />
-              </ListItem>
-              <ListItem sx={{ bgcolor: "background.paper" }}>
-                <ListItemIcon>
-                  <Avatar
-                    alt="Grace Augustine"
-                    src="https://material-ui.com/static/images/avatar/3.jpg"
-                  />
-                </ListItemIcon>
-                <ListItemText primary="dalfjsdk; asd;lfkajsd f;asdkfja sd;lfkjasd ;lfkajsd;lf aksjdl;fkajs df;aljsdflkasjd f;laskdfja ;sdlfkjas d;flaksjd fdl;afskd jaf;sldkfja sd;lfakjsd f;laskdj f;alsdkjf a;sldfkja s;dflkasjd f;laskdjf ;asldkfjas;dlf kajsd;flak sjdl;fakj sd;lfaks jd;fa dlsfkjd f;asdlkj;ls dfa;lsdkjf a;lsdf jal;dsfj al;sdkfj als;dkfj a;sldfja;sldfkjal;sdfjal;sd fj;alsdk jfa;lsdfjal;sdkfj als;df jas;dlfja;sldkf jal;sdfja;lsdfj as;ldfja;lsdf ja;lsdfkjas;dlf ja;lsdf " />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <Avatar
-                    alt="Grace Augustine"
-                    src="https://material-ui.com/static/images/avatar/3.jpg"
-                  />
-                </ListItemIcon>
-                <ListItemText primary="d;alkfsjdl fajs;dlfk jasl;dkfjasl;df ja;lsdkjf alskdfja;lsdf ja;lsdkfj al;sdkjfa;ls dkjfa;lsdkjf a;sldkfja;sldkfja;sldkf jals;dkfja l;sdkfja;lsdkfjal;skd fja;lksdjf a;lsdkjfa ;lsdkfja;sldkfja sd;lfkajsd l;fheaif;jseofjwiejfaslkdfhewpi;fjalskdfj aipsehfas;kldjfa seifhasdlkfjas ;dlfhewipfajsk;dflasdihfpasdfjkas; jdfalsdkjfa ;sdlkfja sdfjasd;lkfjas dlfkjas;ldkfjas dlfkajsd;f alksdjf;a lsdkfja;sldkf aj;sdlfkaj sd;flaksdjf a;ldsfkjas; dflkas;dfkasjd;flak jsdlfa;ksjdflasdk fja;lsdkfja sld;fkjas dlfkjas;dlf kajsd;lkfaj sdlkfjasdlkfjasd kfjaslkdfjasl;dfkjas; dlfkjasdlkfj asl;dkfjasld kfja ;sldfk" />
-              </ListItem>
-              <ListItem sx={{ bgcolor: "background.paper" }}>
-                <ListItemIcon>
-                  <Avatar
-                    alt="Grace Augustine"
-                    src="https://material-ui.com/static/images/avatar/3.jpg"
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  sx={{ wordBreak: "break-all" }}
-                  primary="lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <Avatar
-                    alt="Grace Augustine"
-                    src="https://material-ui.com/static/images/avatar/3.jpg"
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  sx={{ wordBreak: "break-all" }}
-                  primary="d;alkfsjdl fajs;dlfk jasl;dkfjasl;df ja;lsdkjf alskdfja;lsdf ja;lsdkfj al;sdkjfa;ls dkjfa;lsdkjf a;sldkfja;sldkfja;sldkf jals;dkfja l;sdkfja;lsdkfjal;skd fja;lksdjf a;lsdkjfa ;lsdkfja;sldkfja sd;lfkajsd l;fheaif;jseofjwiejfaslkdfhewpi;fjalskdfj aipsehfas;kldjfa seifhasdlkfjas ;dlfhewipfajsk;dflasdihfpasdfjkas; jdfalsdkjfa ;sdlkfja sdfjasd;lkfjas dlfkjas;ldkfjas dlfkajsd;f alksdjf;a lsdkfja;sldkf aj;sdlfkaj sd;flaksdjf a;ldsfkjas; dflkas;dfkasjd;flak jsdlfa;ksjdflasdk fja;lsdkfja sld;fkjas dlfkjas;dlf kajsd;lkfaj sdlkfjasdlkfjasd kfjaslkdfjasl;dfkjas; dlfkjasdlkfj asl;dkfjasld kfja ;sldfk llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll"
-                />
-              </ListItem>
-              <ListItem sx={{ bgcolor: "background.paper" }}>
-                <ListItemIcon>
-                  <Avatar
-                    alt="Grace Augustine"
-                    src="https://material-ui.com/static/images/avatar/3.jpg"
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  sx={{ wordBreak: "break-all" }}
-                  primary="llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll"
-                />
-              </ListItem>
-            </Box>
-
-            <Paper
-              component="form"
-              sx={{
-                p: "2px 4px",
-                display: "flex",
-                alignItems: "center",
-              }}
+      <Box sx={{ height: "100vh", overflow: "auto" }}>
+        {chatLog.map((message, index) => (
+          <div>
+            <AIMessages message={message} key={index} />
+          </div>
+        ))}
+        <Toolbar />
+        <Toolbar />
+        <Toolbar />
+      </Box>
+      <Box
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === "light"
+              ? theme.palette.grey[100]
+              : theme.palette.grey[900],
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          boxShadow: `0px 15px 15px 30px ${grey[100]}`,
+        }}
+      >
+        <Container maxWidth="md" sx={{ my: 2 }}>
+          <Paper
+            component="form"
+            sx={{
+              p: "2px 4px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <InputBase
+              sx={{ ml: 1, flex: 1 }}
+              placeholder="What's on your mind?"
+              inputProps={{ "aria-label": "what's on your mind" }}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
+            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+            <IconButton
+              color="primary"
+              sx={{ p: "10px" }}
+              aria-label="send"
+              onClick={handleSubmit}
             >
-              <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                placeholder="What's on your mind?"
-                inputProps={{ "aria-label": "what's on your mind" }}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-              />
-              <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-              <IconButton
-                color="primary"
-                sx={{ p: "10px" }}
-                aria-label="send"
-                onClick={handleSubmit}
-              >
-                <Send />
-              </IconButton>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Container>
+              <Send />
+            </IconButton>
+          </Paper>
+          <Typography variant="body2" sx={{ fontSize: "12px", mt: 1 }}>
+            ChatGPT Jan 30 Version. Free Research Preview. Our goal is to make
+            AI systems more natural and safe to interact with. Your feedback
+            will help us improve.
+          </Typography>
+        </Container>
+      </Box>
     </Box>
   );
 }
