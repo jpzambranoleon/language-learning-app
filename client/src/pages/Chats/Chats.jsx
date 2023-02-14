@@ -126,8 +126,9 @@ export default function Chats() {
                 sx={{ display: "flex", bottom: 0, left: 0, right: 0 }}
               >
                 <Container sx={{ mb: 2 }}>
-                  <Box
-                    component={Paper}
+                  <Paper
+                    component="form"
+                    elevation={5}
                     sx={{
                       backgroundColor: (theme) =>
                         theme.palette.mode === "light"
@@ -159,7 +160,7 @@ export default function Chats() {
                     >
                       <Send fontSize="inherit" />
                     </IconButton>
-                  </Box>
+                  </Paper>
                 </Container>
               </Box>
             </Box>
