@@ -1,10 +1,11 @@
 import { Box, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MuiDrawer from "./components/MuiDrawer";
 import Account from "./pages/Account";
-import Chatbot from "./pages/Chatbot";
+import Chats from "./pages/Chats/Chats";
+import CreateAssistant from "./pages/createAssistant/CreateAssistant";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
@@ -29,10 +30,15 @@ function App() {
             <Router>
               <MuiDrawer />
               <Routes>
-                <Route path="/" element={<Chatbot />} />
+                <Route path="/" element={<Home />} />
                 <Route path="/messages" element={<Messages />} />
-                <Route path="/profile/:username" element={<Profile />} />
+                <Route path="/profile/:username/:page" element={<Profile />} />
                 <Route path="/account" element={<Account />} />
+                <Route path="/assistant/create" element={<CreateAssistant />} />
+                <Route
+                  path="/assistant/:assistantId/chat"
+                  element={<Chats />}
+                />
               </Routes>
             </Router>
           ) : (
