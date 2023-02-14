@@ -156,7 +156,7 @@ export default function CreateAssistant() {
       ),
     },
     {
-      label: "Create an ad",
+      label: "Review your assistant",
       content: (
         <DisplayCard name={name} model={model} prompt={prompt} file={file} />
       ),
