@@ -141,6 +141,10 @@ exports.postAIMessage = async (req, res) => {
     });
     console.log(message);
     console.log(response.data);
+    if (response.data.choices[0].text === "")
+      throw new Error(
+        "Response resulted in an empty string. Please be sure to use ask questions that the model can handle."
+      );
     if (response.data.choices[0].text) {
       await currentAssistant.updateOne({
         $push: {
