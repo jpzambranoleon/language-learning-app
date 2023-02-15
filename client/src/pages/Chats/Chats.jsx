@@ -144,6 +144,8 @@ export default function Chats() {
                       sx={{ ml: 1, flex: 1, p: "7px" }}
                       placeholder="What's on your mind?"
                       inputProps={{ "aria-label": "what's on your mind" }}
+                      multiline
+                      maxRows={5}
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                     />
