@@ -188,73 +188,73 @@ const RightBar = () => {
       <Box sx={{ textAlign: "center", mt: 2, mb: 2 }}>
         <Button size="small">View all</Button>
       </Box>
-      <Divider sx={{ mt: 3, mb: 4 }} />
-      <Box
-        sx={{
-          backgroundColor: grey[100],
-          p: "18px 0px 14px 18px",
-          borderRadius: "20px",
-        }}
-      >
-        <Box sx={{ display: "flex" }}>
-          <AvatarGroup max={8} spacing={10} sx={{ mb: 1 }}>
-            <Avatar
-              alt="Remy Sharp"
-              src="https://material-ui.com/static/images/avatar/1.jpg"
-              sx={{ width: 30, height: 30 }}
-            />
-            <Avatar
-              alt="Travis Howard"
-              src="https://material-ui.com/static/images/avatar/2.jpg"
-              sx={{ width: 30, height: 30 }}
-            />
-            <Avatar
-              alt="Cindy Baker"
-              src="https://material-ui.com/static/images/avatar/3.jpg"
-              sx={{ width: 30, height: 30 }}
-            />
-            <Avatar
-              alt="Agnes Walker"
-              src="https://material-ui.com/static/images/avatar/4.jpg"
-              sx={{ width: 30, height: 30 }}
-            />
-            <Avatar
-              alt="Trevor Henderson"
-              src="https://material-ui.com/static/images/avatar/5.jpg"
-              sx={{ width: 30, height: 30 }}
-            />
-            <Avatar
-              alt="Trevor Henderson"
-              src="https://material-ui.com/static/images/avatar/6.jpg"
-              sx={{ width: 30, height: 30 }}
-            />
-            <Avatar
-              alt="Trevor Henderson"
-              src="https://material-ui.com/static/images/avatar/7.jpg"
-              sx={{ width: 30, height: 30 }}
-            />
-            <Avatar
-              alt="Trevor Henderson"
-              src="https://material-ui.com/static/images/avatar/8.jpg"
-              sx={{ width: 30, height: 30 }}
-            />
-          </AvatarGroup>
-        </Box>
-        <Stack direction="column">
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Typography variant="h5" fontWeight={500}>
-              184.3K
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Followers
+      <Box>
+        <Divider sx={{ mt: 3, mb: 4 }} />
+        <Box
+          sx={{
+            backgroundColor: grey[100],
+            p: "18px 0px 14px 18px",
+            borderRadius: "20px",
+          }}
+        >
+          <Box sx={{ display: "flex" }}>
+            <AvatarGroup max={8} spacing={10} sx={{ mb: 1 }}>
+              <Avatar
+                alt="Remy Sharp"
+                src="https://material-ui.com/static/images/avatar/1.jpg"
+                sx={{ width: 30, height: 30 }}
+              />
+              <Avatar
+                alt="Travis Howard"
+                src="https://material-ui.com/static/images/avatar/2.jpg"
+                sx={{ width: 30, height: 30 }}
+              />
+              <Avatar
+                alt="Cindy Baker"
+                src="https://material-ui.com/static/images/avatar/3.jpg"
+                sx={{ width: 30, height: 30 }}
+              />
+              <Avatar
+                alt="Agnes Walker"
+                src="https://material-ui.com/static/images/avatar/4.jpg"
+                sx={{ width: 30, height: 30 }}
+              />
+              <Avatar
+                alt="Trevor Henderson"
+                src="https://material-ui.com/static/images/avatar/5.jpg"
+                sx={{ width: 30, height: 30 }}
+              />
+              <Avatar
+                alt="Trevor Henderson"
+                src="https://material-ui.com/static/images/avatar/6.jpg"
+                sx={{ width: 30, height: 30 }}
+              />
+              <Avatar
+                alt="Trevor Henderson"
+                src="https://material-ui.com/static/images/avatar/7.jpg"
+                sx={{ width: 30, height: 30 }}
+              />
+              <Avatar
+                alt="Trevor Henderson"
+                src="https://material-ui.com/static/images/avatar/8.jpg"
+                sx={{ width: 30, height: 30 }}
+              />
+            </AvatarGroup>
+          </Box>
+          <Stack direction="column">
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="h5" fontWeight={500}>
+                184.3K
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Followers
+              </Typography>
+            </Stack>
+            <Typography variant="body2" fontWeight={500}>
+              Active now on your profile
             </Typography>
           </Stack>
-          <Typography variant="body2" fontWeight={500}>
-            Active now on your profile
-          </Typography>
-        </Stack>
-      </Box>
-      <Box>
+        </Box>
         <Divider sx={{ mt: 4, mb: 4 }} />
         <Box>
           <Stack

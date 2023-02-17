@@ -1,4 +1,5 @@
 import Home from "./pages/home/Home";
+import SecondPage from "./SecondPage";
 
 function App() {
   return (
