@@ -11,6 +11,7 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     profilePic: { type: String, default: "" },
+    bio: { type: String },
     isActive: { type: Boolean, default: false, required: true },
   },
   {
