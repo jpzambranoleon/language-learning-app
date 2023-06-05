@@ -15,7 +15,7 @@ const app = express();
 MongooseConnection();
 
 // Middlewares
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
