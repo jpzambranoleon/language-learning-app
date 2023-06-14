@@ -11,7 +11,7 @@ require("dotenv").config();
 // Create application with express
 const app = express();
 
-// fix issue 
+// Reminder: fix issue 
 
 // Connect to database
 MongooseConnection();
