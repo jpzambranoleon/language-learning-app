@@ -11,7 +11,7 @@ require("dotenv").config();
 // Create application with express
 const app = express();
 
-// Reminder: fix issue urgent, like now please hurry like now please nigga i beg thee nigga nigga niggA don't you run from u
+// Reminder: fix issue urgent, like now please hurry like now please nigga i beg thee nigga nigga niggA don't you run from u nigga
 
 // Connect to database
 MongooseConnection();
